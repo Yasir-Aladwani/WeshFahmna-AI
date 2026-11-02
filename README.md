@@ -186,6 +186,10 @@ The project follows an end-to-end workflow from dataset acquisition to interacti
 
 ### Data Source
 
+Reviewed 16 datasets and 15 research papers to select a suitable dataset for this project.
+
+**[View Dataset Research Survey (Excel)](docs/research_survey.xlsx)**
+
 The project uses the publicly available:
 
 **[AppTek Call-Center Dialogues Dataset](https://huggingface.co/datasets/apptek-com/apptek_callcenter_dialogues)**
