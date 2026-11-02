@@ -265,6 +265,12 @@ The selected calls represent a small evaluation sample rather than the complete 
 
 WeshFahmna AI includes an interactive analytics application designed to transform model outputs into understandable insights.
 
+<h3 align="center">
+  <a href="https://weshfahmna-ai.streamlit.app/">
+     Explore the Interactive Dashboard  ↗
+  </a>
+</h3>
+
 ### 1. Overview
 
 The Overview page presents high-level statistics about the analyzed conversations.
