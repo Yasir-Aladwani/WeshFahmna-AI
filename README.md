@@ -10,22 +10,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit">
-  <img src="https://img.shields.io/badge/Speech-Whisper-087E8B?style=flat-square" alt="Whisper ASR">
-  <img src="https://img.shields.io/badge/LLM-Qwen-7759C2?style=flat-square" alt="Qwen LLMs">
-  <img src="https://img.shields.io/badge/Dataset-CC_BY--SA_4.0-2A8A79?style=flat-square" alt="Dataset license">
+  <a href="https://weshfahmna-ai.streamlit.app/"><strong>🚀 Explore the Live Dashboard</strong></a>
 </p>
 
-<p align="center">
-  <a href="#overview">Overview</a> ·
-  <a href="#system-architecture">Architecture</a> ·
-  <a href="#evaluation-results">Evaluation</a> ·
-  <a href="#run-locally">Run Locally</a> ·
-  <a href="#data-license--attribution">Data & License</a>
-</p>
-
-> **Project scope:** This is a **12-call evaluation and visualization prototype**, not a live call-monitoring or employee-scoring system. Speech processing and language-model inference are performed **offline**; the Streamlit dashboard reads prepared results. The original dataset consists of **role-played English customer-service calls**, not private customer recordings.
+> **Project scope:** This is a **12-call evaluation and visualization prototype**, rather than a live call-monitoring system. Speech processing and language-model inference are performed **offline**; the Streamlit dashboard reads prepared results. The original dataset consists of **role-played English customer-service calls**, not private customer recordings.
 
 ---
 
@@ -37,17 +25,15 @@
 | 02 | [Project Problem](#project-problem) | Why conversation analysis matters |
 | 03 | [Key Features](#key-features) | Main analytical capabilities |
 | 04 | [System Architecture](#system-architecture) | Offline processing and dashboard layers |
-| 05 | [AI Pipeline](#ai-pipeline) | From recordings to actionable insights |
+| 05 | [AI Pipeline](#ai-pipeline) | From recordings to insights |
 | 06 | [Dataset & Scope](#dataset--scope) | Public data source and pilot coverage |
 | 07 | [Models & Tech Stack](#models--tech-stack) | Speech, diarization, NLP, and visualization |
-| 08 | [Interactive Dashboard](#interactive-dashboard) | What the application shows |
-| 09 | [Evaluation Results](#evaluation-results) | Measured quality and sample statistics |
-| 10 | [Reproducibility](#reproducibility) | How the results are organized |
-| 11 | [Run Locally](#run-locally) | Start the Streamlit interface |
-| 12 | [Repository Structure](#repository-structure) | Code, data, and documentation layout |
-| 13 | [Limitations](#limitations) | What the system does not establish |
-| 14 | [Data License & Attribution](#data-license--attribution) | Dataset credit and permitted uses |
-| 15 | [Author](#author) | Project owner |
+| 08 | [Interactive Dashboard](#interactive-dashboard) | Features and analytical views |
+| 09 | [Evaluation Results](#evaluation-results) | Measured model quality and sentiment statistics |
+| 10 | [Reproducibility](#reproducibility) | Structured outputs and processing documentation |
+| 11 | [Limitations](#limitations) | Scope and model reliability considerations |
+| 12 | [Data License & Attribution](#data-license--attribution) | Dataset credit and permitted uses |
+| 13 | [Author](#author) | Project owner |
 
 ---
 
@@ -341,10 +327,6 @@ The methodology section documents:
 - Data limitations.
 - Interpretation guidance.
 
-### Application Screenshots
-
-Screenshots of the finalized Streamlit application will be added here.
-
 ---
 
 ## Evaluation Results
@@ -471,98 +453,6 @@ The dashboard does not rerun the original AI models when displaying previously p
 
 ---
 
-## Run Locally
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Yasir-Aladwani/WeshFahmna-AI.git
-cd WeshFahmna-AI
-```
-
-### 2. Create a Virtual Environment
-
-```bash
-python -m venv .venv
-```
-
-### Windows
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-### macOS / Linux
-
-```bash
-source .venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Launch the Application
-
-```bash
-streamlit run app.py
-```
-
-The application will open in your browser.
-
-### Deployment
-
-The project is designed for deployment using **Streamlit Community Cloud**.
-
-The deployed application uses prepared analysis files and does not require GPU inference during normal dashboard usage.
-
----
-
-## Repository Structure
-
-```text
-WeshFahmna-AI/
-│
-├── app.py
-│
-├── app_data/
-│   ├── calls_dashboard.csv
-│   ├── transcript_turns_dashboard.csv
-│   ├── sentiment_timeline_dashboard.csv
-│   ├── summary_quality_dashboard.csv
-│   └── data_manifest.json
-│
-├── assets/
-│   ├── branding/
-│   │   └── weshfahmna-logo.png
-│   │
-│   ├── architecture/
-│   │   └── system-architecture.png
-│   │
-│   ├── pipeline/
-│   │   └── project-pipeline.jpeg
-│   │
-│   └── screenshots/
-│
-├── scripts/
-│   └── prepare_data.py
-│
-├── data/
-│   └── processed/
-│
-├── notebooks/
-│
-├── requirements.txt
-│
-└── README.md
-```
-
-The structure above represents the intended project organization. Some folders are optional depending on the published repository contents.
-
----
-
 ## Limitations
 
 Although WeshFahmna AI demonstrates an end-to-end conversation analysis pipeline, several limitations should be considered.
@@ -596,18 +486,6 @@ Although WeshFahmna AI demonstrates an end-to-end conversation analysis pipeline
 - Language models can omit details or generate inaccurate statements.
 - Summary quality varies across conversations.
 - Human review remains important for high-stakes applications.
-
-### Operational Limitations
-
-The dataset does not provide sufficient operational evidence for measuring:
-
-- Actual First Contact Resolution (FCR).
-- Verified Customer Satisfaction (CSAT).
-- Service Level Agreement (SLA) compliance.
-- Instrumented Average Handle Time (AHT).
-- Individual employee productivity.
-
-The project should not be used as an automated employee-ranking or disciplinary system.
 
 ---
 
