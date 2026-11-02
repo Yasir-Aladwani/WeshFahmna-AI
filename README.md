@@ -1,173 +1,619 @@
-# WeshFahmna AI
+<h1 align="center">WeshFahmna AI | وش فهمنا؟</h1>
 
-**Voice Intelligence • Call Analytics** — an interactive Streamlit explorer for a 12-call English customer-service study. It shows transcripts, reference-assisted speaker turns, AI call summaries, customer sentiment, and model-evaluation results.
+<p align="center">
+  <strong>AI-Powered Call Center Conversation Intelligence</strong><br>
+  Turning customer-service conversations into structured summaries, sentiment insights, and auditable model-quality results.
+</p>
 
-> This is an **offline demo over precomputed results**. All transcription, diarization, summarization, sentiment scoring, and evaluation were done earlier in a Google Colab study. The app only reads the stored files and charts them. It runs no models, makes no API calls, and includes no audio.
+<p align="center">
+  <img src="assets/branding/weshfahmna-cover.svg" alt="WeshFahmna AI — Call Center Conversation Intelligence" width="100%">
+</p>
 
-## Quick start
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/Speech-Whisper-087E8B?style=flat-square" alt="Whisper ASR">
+  <img src="https://img.shields.io/badge/LLM-Qwen-7759C2?style=flat-square" alt="Qwen LLMs">
+  <img src="https://img.shields.io/badge/Dataset-CC_BY--SA_4.0-2A8A79?style=flat-square" alt="Dataset license">
+</p>
 
-```bash
+<p align="center">
+  <a href="#overview">Overview</a> ·
+  <a href="#system-architecture">Architecture</a> ·
+  <a href="#evaluation-results">Evaluation</a> ·
+  <a href="#run-locally">Run Locally</a> ·
+  <a href="#data-license--attribution">Data & License</a>
+</p>
+
+Project scope: This is a 12-call evaluation and visualization prototype, not a live call-monitoring or employee-scoring system. Speech processing and language-model inference are performed offline; the Streamlit dashboard reads prepared results. The original dataset consists of role-played English customer-service calls, not private customer recordings.
+
+Table of Contents
+
+#
+
+Section
+
+Description
+
+01
+
+Overview
+
+What WeshFahmna AI does
+
+02
+
+Project Problem
+
+Why conversation analysis matters
+
+03
+
+Key Features
+
+Main analytical capabilities
+
+04
+
+System Architecture
+
+Offline processing and dashboard layers
+
+05
+
+AI Pipeline
+
+From recordings to actionable insights
+
+06
+
+Dataset & Scope
+
+Public data source and pilot coverage
+
+07
+
+Models & Tech Stack
+
+Speech, diarization, NLP, and visualization
+
+08
+
+Interactive Dashboard
+
+What the application shows
+
+09
+
+Evaluation Results
+
+Measured quality and sample statistics
+
+10
+
+Reproducibility
+
+How the results are organized
+
+11
+
+Run Locally
+
+Start the Streamlit interface
+
+12
+
+Repository Structure
+
+Code, data, and documentation layout
+
+13
+
+Limitations
+
+What the system does not establish
+
+14
+
+Data License & Attribution
+
+Dataset credit and permitted uses
+
+15
+
+Author
+
+Project owner
+
+Overview
+
+WeshFahmna AI | وش فهمنا؟ is an end-to-end AI project that explores how customer-service conversations can be transformed into understandable, reviewable insights.
+
+The pipeline combines automatic speech recognition, speaker diarization, structured call summarization, and customer sentiment analysis. Its outputs are joined into a Streamlit dashboard for examining individual calls, overall conversation trends, and model reliability.
+
+Instead of presenting AI predictions without context, the project also reports Word Error Rate (WER), Diarization Error Rate (DER), model-comparison scores, and data-provenance notes. This makes the difference between what the system inferred and what the reference data supports explicit.
+
+At a glance
+
+12 calls analyzed
+
+118.83 minutes
+
+776 speaker turns
+
+281 customer turns scored
+
+8 service domains
+
+4 accent groups
+
+2 summarization models compared
+
+4 main dashboard views
+
+Project Problem
+
+Long customer-service calls contain useful information, but reviewing them individually is time-consuming. Critical details can be scattered across many turns: why the customer called, what the agent did, what outcome was reached, and how the customer's language changed during the interaction.
+
+A useful analysis tool should organize these details while also exposing uncertainty. Errors in transcription, speaker attribution, and generated summaries can affect downstream interpretation. WeshFahmna AI therefore treats model quality and traceability as part of the product, not an afterthought.
+
+Key Features
+
+Capability
+
+What it provides
+
+Call Summarization
+
+Structured customer issue, agent action, and outcome/next-step fields from Qwen models
+
+Speech Transcription
+
+English ASR outputs generated with faster-whisper (small.en)
+
+Speaker Analysis
+
+Diarization experiments, timestamped turns, and reviewable attribution results
+
+Customer Sentiment
+
+Call-level sentiment, customer-turn classification, and beginning-to-end comparisons
+
+Interactive Exploration
+
+Searchable calls, filters, transcripts, evidence, and sentiment timelines
+
+Quality Evaluation
+
+Per-call WER/DER, adjusted WER, and Qwen2.5-versus-Qwen3 quality comparisons
+
+Reproducible Outputs
+
+Structured CSV/JSON exports, methodology notes, and provenance metadata
+
+System Architecture
+
+The system separates compute-intensive offline inference from the lightweight, read-only Streamlit interface. This is intentional: dashboard visitors can inspect results without downloading large models or reprocessing audio.
+
+flowchart TB
+    A["AppTek Call-Center Dialogues<br/>public benchmark audio + references"]
+    subgraph P["Offline AI Processing"]
+        B["Speech recognition<br/>faster-whisper small.en"]
+        C["Speaker diarization<br/>pyannote.audio"]
+        D["Call summarization<br/>Qwen2.5 / Qwen3"]
+        E["Customer sentiment<br/>RoBERTa"]
+        F["Evaluation + source alignment<br/>WER, DER, rubric, attribution audit"]
+    end
+    subgraph S["Prepared Data Layer"]
+        G["Validated CSV / JSON exports"]
+        H["Dashboard-ready data views"]
+    end
+    subgraph U["Presentation Layer"]
+        I["Streamlit dashboard"]
+        J["Overview · Call Explorer<br/>Sentiment · Model Quality"]
+    end
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+    A --> F
+    B --> F
+    C --> F
+    D --> F
+    E --> F
+    F --> G --> H --> I --> J
+
+    classDef core fill:#0d253b,stroke:#18aeb6,color:#eefaff
+    classDef data fill:#163045,stroke:#8cbfe4,color:#eefaff
+    classDef ui fill:#253b50,stroke:#b9a1ff,color:#eefaff
+    class B,C,D,E,F core
+    class G,H data
+    class I,J ui
+
+Speaker-label disclosure: The dashboard's role-labeled transcripts use reference-assisted speaker attribution where available. Raw diarization is evaluated separately and should not be mistaken for fully automatic, error-free agent/customer identification.
+
+<!-- Optional: after uploading your previously designed system architecture SVG,
+     add it here with the correct relative path, for example:
+<p align="center"><img src="assets/architecture/system_architecture.svg" alt="System Architecture" width="95%"></p>
+-->
+
+AI Pipeline
+
+Select & inspect calls from the public AppTek diarization configuration.
+
+Transcribe speech using faster-whisper small.en and compare predictions with reference text.
+
+Analyze speakers using pyannote; retain both diarization metrics and reference-assisted role labels for the dashboard.
+
+Summarize each call into the customer issue, agent action, and outcome or next step; compare Qwen2.5 and Qwen3 outputs.
+
+Score customer sentiment using a RoBERTa classifier; aggregate call-level interpretations and turn-level sentiment trajectories.
+
+Evaluate and audit WER, filler-adjusted WER, DER, summary quality, and attribution limitations.
+
+Prepare reproducible exports and serve the read-only analytical experience through Streamlit.
+
+flowchart LR
+    A["Public call audio"] --> B["ASR + speaker analysis"]
+    B --> C["Summaries + sentiment"]
+    C --> D["Evaluation + provenance"]
+    D --> E["CSV / JSON"]
+    E --> F["Streamlit insights"]
+    style A fill:#0d253b,stroke:#18aeb6,color:#ffffff
+    style F fill:#253b50,stroke:#b9a1ff,color:#ffffff
+
+<!-- Optional: replace the Mermaid pipeline with your exported Project Pipeline SVG
+     once it is committed to assets/pipeline/. -->
+
+Dataset & Scope
+
+Source: AppTek Call-Center Dialogues by AppTek.ai.
+
+This benchmark contains role-played, long-form English customer-service conversations with accent, domain, transcript, and speaker annotations. The project uses its diarization configuration and analyzes a 12-call pilot sample (selection seed: 42).
+
+Pilot characteristic
+
+Value
+
+Calls
+
+12
+
+Total recording duration
+
+118.83 min
+
+Average recording duration
+
+9.90 min
+
+Service domains represented
+
+8
+
+Accent groups represented
+
+4
+
+Timestamped speaker turns
+
+776
+
+Customer turns with sentiment scores
+
+281
+
+The pilot is not the entire AppTek benchmark. The dataset's broader range of accents and service domains should not be confused with the coverage of this 12-call experiment.
+
+Models & Tech Stack
+
+Layer
+
+Technology / model
+
+Purpose
+
+ASR
+
+faster-whisper · small.en
+
+English speech transcription
+
+Speaker diarization
+
+pyannote.audio
+
+Automatic speaker segmentation and DER evaluation
+
+Summarization
+
+Qwen2.5-3B-Instruct
+
+Comparison baseline
+
+Summarization
+
+Qwen3-4B-Instruct-2507
+
+Structured summary generation and comparative evaluation
+
+Sentiment
+
+cardiffnlp/twitter-roberta-base-sentiment-latest
+
+Customer utterance sentiment classification
+
+Data analysis
+
+Python · pandas · NumPy
+
+Joining, validation, aggregations, metrics
+
+Visualization
+
+Streamlit · Plotly
+
+Interactive exploration and analytics
+
+Experimentation
+
+Google Colab
+
+Offline model experimentation
+
+Formats
+
+CSV · JSON
+
+Interoperable, reviewable outputs
+
+Important: A general-domain sentiment model can misinterpret customer-service language; its predictions are analytical signals, not verified customer satisfaction scores.
+
+Interactive Dashboard
+
+The interface is designed around four complementary views:
+
+View
+
+Main questions answered
+
+Executive Overview
+
+How many calls were analyzed? How are domains, accents, recording lengths, and overall sentiments distributed?
+
+Call Explorer
+
+What happened in a selected call? What do the summary, transcript, customer sentiment, and quality notes show?
+
+Customer Sentiment
+
+Which turns were classified positive/neutral/negative? How did the sentiment signal change within a call?
+
+Model Quality & Methodology
+
+How reliable are transcription, diarization, and summaries? What role do references and manual review play?
+
+Screenshots
+
+The layout is prepared for the final Streamlit screenshots. Once screenshots are committed, add them using this pattern:
+
+<!--
+### Executive Overview
+<p align="center"><img src="assets/screenshots/overview.png" alt="Executive Overview" width="95%"></p>
+
+### Call Explorer
+<p align="center"><img src="assets/screenshots/call_explorer.png" alt="Call Explorer" width="95%"></p>
+
+### Sentiment Analysis
+<p align="center"><img src="assets/screenshots/customer_sentiment.png" alt="Customer Sentiment" width="95%"></p>
+
+### Model Quality
+<p align="center"><img src="assets/screenshots/model_quality.png" alt="Model Quality" width="95%"></p>
+-->
+
+Evaluation Results
+
+All results below refer to the 12-call pilot, using the project's stored evaluation tables—not the full AppTek benchmark.
+
+Speech and speaker quality
+
+Metric
+
+Pilot mean
+
+Interpretation
+
+Original WER
+
+20.85%
+
+Average word error rate before filler adjustment; lower is better
+
+Filler-adjusted WER
+
+18.24%
+
+Adjusted comparison after defined filler handling; lower is better
+
+DER
+
+19.93%
+
+Average speaker diarization error rate; lower is better
+
+WER improved by 2.61 percentage points under the project's filler-adjusted calculation. This adjusted metric must not be reported as directly interchangeable with standard WER.
+
+Summarization quality comparison
+
+Model
+
+Mean rubric score
+
+Qwen2.5
+
+3.31 / 5
+
+Qwen3
+
+3.83 / 5
+
+Mean difference (Qwen3 − Qwen2.5)
+
++0.53 / 5
+
+The project uses a structured review rubric covering aspects such as factual accuracy, completeness, and outcome accuracy. Qwen3 scored higher on average, but Qwen2.5 performed better on 4 of the 12 calls, with 1 tie. These are small-sample review scores, not population-level guarantees.
+
+Customer sentiment snapshot
+
+Unit of analysis
+
+Distribution
+
+Overall call labels (12)
+
+8 neutral · 4 positive · 0 negative
+
+Customer-turn labels (281)
+
+181 neutral · 79 positive · 21 negative
+
+Opening → closing call labels
+
+6 neutral→positive · 3 neutral→neutral · 2 positive→neutral · 1 positive→positive
+
+The call-level and turn-level distributions are different measurements and must not be combined. A non-negative overall call label is not proof of satisfaction, resolution, or excellent agent performance.
+
+Reproducibility
+
+The processing stage produces auditable outputs rather than making new model calls on each dashboard visit.
+
+Export
+
+Contents
+
+calls.json / calls.csv
+
+Per-call metadata, summaries, and headline metrics
+
+speaker_turns.csv
+
+Timestamped, role-labeled transcript turns
+
+customer_turn_sentiment.csv
+
+Customer-turn sentiment scores and probabilities
+
+diarization_metrics.csv
+
+Per-call DER and alignment statistics
+
+filler_adjusted_wer.csv
+
+Standard versus adjusted ASR comparison
+
+model_quality_comparison_12_calls.csv
+
+Qwen2.5 and Qwen3 rubric comparisons
+
+final_quality_metrics.csv
+
+Aggregated model evaluations
+
+speaker_attribution_review.csv
+
+Audit trail for reference-assisted roles
+
+methodology.json / provenance.json
+
+Sources, model versions, assumptions, and caveats
+
+For the Streamlit app, scripts/prepare_data.py assembles the analytical views in app_data/, including call summaries, transcript turns, sentiment timelines, model quality, and a dataset manifest.
+
+No inference is rerun when viewing precomputed dashboard pages. Full model-level reproduction requires the original source dataset, model dependencies, processing notebooks/scripts, and the documented experiment settings.
+
+Run Locally
+
+The commands below assume the repository uses app.py as its Streamlit entry point and includes requirements.txt and the prepared app_data/ folder.
+
+git clone https://github.com/Yasir-Aladwani/WeshFahmna-AI.git
+cd WeshFahmna-AI
 python -m venv .venv
-# Windows: .venv\Scripts\activate    macOS/Linux: source .venv/bin/activate
+
+Windows (PowerShell):
+
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 streamlit run app.py
-```
 
-Then open http://localhost:8501. The app needs Python 3.10 or later and has been tested on Python 3.12 and 3.14 with Streamlit 1.66, pandas 3.1, and Plotly 6.9.
+macOS / Linux:
 
-The app reads only the publication-safe files in `app_data/`; nothing else is needed to run it.
+source .venv/bin/activate
+pip install -r requirements.txt
+streamlit run app.py
 
-### Deploying to Streamlit Community Cloud
+If you have the original integration exports and need to refresh the dashboard views:
 
-1. Push the repository to GitHub. The private originals are git-ignored and are never needed.
-2. In Streamlit Community Cloud, create an app from the repository with **main file `app.py`** and Python 3.12.
-3. No secrets or environment variables are required. Dependencies install from `requirements.txt`, and the theme loads from `.streamlit/config.toml`.
-
-## Dataset attribution and licence
-
-The conversations analysed here come from:
-
-- **Dataset:** AppTek Call-Center Dialogues
-- **Source:** https://huggingface.co/datasets/apptek-com/apptek_callcenter_dialogues
-- **Licence:** [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/)
-
-This project uses 12 dialogues from that dataset. Its reference speaker labels were used for the reference-assisted speaker-role alignment.
-
-The files in `app_data/` are **adapted material** derived from the dataset; they are modified as described below. Under the ShareAlike term, they are distributed under **CC BY-SA 4.0**. The dataset authors do not endorse this project. The application source code is separate from the data and is not covered by this data licence.
-
-## Data transformations
-
-Every result was produced offline in a Google Colab study. This repository adds no new model outputs.
-
-1. **Offline study (not in this repository).** The 12 audio recordings went through Whisper Small.en transcription and Pyannote Community-1 diarization. Speaker roles were then aligned with AppTek reference labels. Qwen3-4B-Instruct-2507 wrote the summaries, with Qwen2.5-3B as a comparison. Customer turns were scored with `cardiffnlp/twitter-roberta-base-sentiment-latest`. Reviewers rated the summaries on a 1–5 rubric. The study exported 11 integration files, which are **kept private**, git-ignored and unmodified.
-2. **Display views (`scripts/prepare_data.py`).** This script joins the call, WER and quality tables. It derives durations in minutes, `_pct` display columns, the opening → closing transition string, and per-call turn counts. For each scored turn it adds the argmax sentiment label, the highest class probability and the polarity (P(positive) − P(negative)). It also sorts the turns by time. No values are re-scored or re-estimated.
-3. **Publication-safe redaction (`scripts/redaction.py`).** This step runs automatically inside `prepare_data.py` before any file is written; see the next section.
-4. **Speaker roles and sentiment coverage (`scripts/prepare_data.py`).** Each transcript turn shows the AppTek reference role when at least 70% of the segment aligns to one reference speaker; otherwise it keeps the diarization role and is marked uncertain. This is the same rule the study used to choose scored customer turns. The original diarization role is kept in `diarization_role`. The script also records how far into each call the scored turns reach. See [Data accuracy review](#data-accuracy-review).
-5. **Verified corrections (`data/corrections/verified_corrections.json`).** Manually checked fixes to Qwen3 summary fields, each with transcript timestamps as evidence. They are published as `app_data/verified_corrections.csv` and **never overwrite** the original model text in `calls_dashboard.csv`.
-6. **Reference copies.** Four non-personal source tables (`diarization_metrics.csv`, `final_quality_metrics.csv`, `methodology.json`, `provenance.json`) are copied verbatim into `app_data/reference/`.
-
-You only need to rebuild the views if you hold the private originals in `data/processed/integrated/`:
-
-```bash
 python scripts/prepare_data.py
-```
 
-## Publication-safe redactions
+Deployment note: Streamlit Community Cloud should load the prepared dashboard files. The heavy ASR, diarization, and LLM experiments are designed to run separately, not on each app startup.
 
-Personal identifiers are masked in every free-text field the app shows. This covers the full call transcript, transcript turns, scored sentiment turns, the customer issue, agent action, final outcome, summary, limitations, justification, and evidence quotes. Masking uses ordered, rule-based placeholders:
+Repository Structure
 
-| Placeholder | What it replaces |
-| --- | --- |
-| `[EMAIL]` | Email addresses, whether written ("x@domain.com"), spoken ("x at gmail dot com", "at the rate of"), or spelled letter by letter, including addresses split across transcript turns |
-| `[PHONE]` | Phone numbers in digits, dashed or spaced form |
-| `[NUMBER]` | Dictated digit strings, such as phone, security-card, loyalty-card and booking numbers. These include sequences split across consecutive turns and numbers given in answer to a prompt like "phone number?" or "read the code" |
-| `[CARD DIGITS]`, `[CODE]` | The last four digits of a payment card, and a one-time verification code |
-| `[REFERENCE]` | Long purchase or reference numbers |
-| `[DATE OF BIRTH]` | Full dates of birth |
-| `[SURNAME]` | Surnames of customers, agents and third parties. **First names are kept** so the dialogue stays readable |
-| `[SPELLED NAME]` | Names spelled out letter by letter |
+A clean repository organization for the processing outputs and dashboard is:
 
-What the redaction does **not** change:
-- **Numeric values, labels, timestamps and row counts.** All metrics (WER, DER, sentiment probabilities, rubric scores) are identical to the unredacted build; this was verified column by column.
-- **Prices, amounts, plan names and times**, such as "$600", "349 plan" or "11 15 a.m.".
-- **Keyword search on masked terms.** Searching for a masked identifier no longer matches, by design.
+WeshFahmna-AI/
+├── app.py                      # Streamlit entry point
+├── app_data/                   # Dashboard-ready CSV/JSON views
+├── scripts/
+│   └── prepare_data.py        # Rebuild analytical views
+├── data/
+│   └── processed/              # Audited integration exports (when included)
+├── notebooks/                  # Offline experiments (when included)
+├── assets/
+│   ├── branding/
+│   │   └── weshfahmna-cover.svg
+│   ├── architecture/           # Add exported architecture SVG here
+│   ├── pipeline/               # Add exported pipeline SVG here
+│   └── screenshots/            # Add final app screenshots here
+├── requirements.txt
+└── README.md
 
-`prepare_data.py` refuses to write a view if any residual email, phone or surname pattern survives. `data_manifest.json` records the redaction method and the number of replacements per category; it never stores the original values. The source is a publicly released dataset, but these identifiers are masked anyway as a precaution.
+This is the target layout for publication; update filenames in this section if the final GitHub repository differs.
 
-## Data accuracy review
+Limitations
 
-An independent review of the published data found the issues below. Each one was checked against the time-stamped transcript and the AppTek reference alignment. Model outputs and evaluation metrics were **not** changed: WER, DER, sentiment probabilities and rubric scores are identical to the earlier build, and the rubric scores refer to the original Qwen3 text.
+Small pilot: 12 role-played calls do not represent all accents, domains, or real-world service conditions.
 
-**Speaker roles.** For 32 scored turns (14 in CALL_005, 7 in CALL_006), the transcript said "agent" while the sentiment data said "customer". The transcript role came from Pyannote diarization, which is unreliable in these calls (DER 55.0% and 50.9%). The sentiment role came from the AppTek reference alignment. The transcript now uses the reference role where the alignment is decisive (share ≥ 70%). That re-attributes 85 of 776 turns in both directions: the 33 high-share turns, which include the reviewer's 32, plus 52 customer→agent turns. Every scored turn now appears as a customer turn. Mixed segments are not relabelled blindly:
-- **Mixed segments.** 208 segments align less than 90% to one speaker, so they contain speech from both parties. The app marks them "mixed speakers".
-- **Uncertain segments.** The 108 segments below 70% keep their diarization role and are marked "role uncertain".
-- **Diarization role kept.** The original role is still available in `diarization_role`.
+Reference-assisted roles: dashboard customer/agent labels depend on dataset references; raw diarization is a separately evaluated experiment. Some calls have high DER (for example, CALL_005 and CALL_006).
 
-**Summary corrections.** Ten fields across four calls are shown as "verified correction" in Call explorer, with the original Qwen3 output and the evidence timestamps one click away.
+ASR and summaries are imperfect: recognition mistakes can propagate into generated summaries and sentiment interpretation.
 
-| Call | Fields | Correction |
-| --- | --- | --- |
-| CALL_012 | agent action, final outcome, summary | The total is **$830** ($630 food + $150 barista and coffee machine + $50 cleanup), not $780. $780 was the subtotal before cleanup was added. The payment timing is stated cautiously because that part of the transcript is garbled. |
-| CALL_010 | agent action, final outcome, summary | The customer asked for $600 but agreed to **$500** because of the $500 daily limit; the limit was not "adjusted". The agent confirmed completion without restating the amount, and the customer did not confirm the balance. |
-| CALL_005 | final outcome, summary | The items were **reserved or added to the basket** for in-store inspection. Final payment was not made or confirmed, so this was not a completed purchase. |
-| CALL_011 | summary | The granny flat is for the customer's **partner's mother** ("my partner's mom", "my mum-in-law"), not their own mother. |
+Sentiment is not CSAT: inferred tone is not a customer survey, and it cannot establish whether an issue was resolved.
 
-**Sentiment coverage.** CALL_006 has only 8 scored customer turns, from 2:19 to 7:06 of a 10:03 call (71%). Later customer speech sits in mixed segments that were never scored. The app now flags this as "partial" closing coverage wherever opening and closing sentiment are shown. A call is flagged when its scored turns end before 90% of the call; no other call is below 95%.
+No operational KPIs: the available data does not establish true Average Handle Time, First Contact Resolution, SLA compliance, or agent productivity. Recording duration is not the same as instrumented handle time.
 
-**Redaction fix.** The written-email rule swallowed the first word of the following sentence ("[EMAIL] items"). The rule now stops at a dot that is followed by a space.
+Not a real-time application: the published dashboard is a visualization of preprocessed outputs, not a live audio ingestion service.
 
-## Application screens
+Human review remains necessary: model outputs should not be used as the sole basis for evaluating employees or making consequential decisions.
 
-| Screen | What it shows |
-| --- | --- |
-| **Overview** | KPI tiles that follow the filters: analyzed calls, recorded minutes, average recorded duration, domains, scored customer turns. Also the call-level sentiment split, opening → closing category heatmap, domain/accent/minutes mix, and a call spotlight ordered by call ID that links into Call explorer. |
-| **Call explorer** | A filterable call table where you can select a row (WER/DER columns are optional). Each call has a detail view with customer issue, agent action, final outcome, summary, and limitations. Verified corrections are labelled, and the original Qwen3 text is shown beside them. It also has a chat-style timestamped transcript with safe search highlighting, a customer sentiment timeline, and per-call evaluation and provenance. |
-| **Sentiment insights** | Call-level labels (12) and turn-level predictions (281), kept separate. Covers opening vs closing categories, the numeric `sentiment_change` by call, the share of predicted turn labels, a turn-polarity strip, and a timeline for one selected call. |
-| **Model quality** | Original vs filler-adjusted WER, DER per call and by accent (CALL_005/006 flagged), and Qwen2.5-3B vs Qwen3-4B rubric scores. Shows per-call wins **and** losses. |
-| **About & methodology** | Pipeline stepper (offline study vs app runtime), dataset dimensions and source models read from the manifest/provenance files, limitations, and metric definitions. |
+Data License & Attribution
 
-The sidebar filters (keyword, domain, accent, overall sentiment, duration band) apply to the first four screens. Each screen has a banner saying whether it shows all 12 calls or a filtered subset.
+The underlying benchmark is AppTek Call-Center Dialogues, created and shared by AppTek.ai, under Creative Commons Attribution–ShareAlike 4.0 (CC BY-SA 4.0).
 
-## Project layout
+Dataset: AppTek Call-Center Dialogues on Hugging Face
 
-```text
-app.py                     # entry point: page config, sidebar filters, st.navigation
-app_pages/                 # one script per screen
-  overview.py  call_explorer.py  sentiment.py  model_quality.py  about.py
-components/ui.py           # HTML helpers (hero, KPI tiles, transcript); all data is html-escaped
-utils/data_loader.py       # cached CSV/JSON loading, filter logic, formatting helpers
-utils/context.py           # applies the global filters for each page run
-utils/charts.py            # Plotly figures with one shared visual system
-styles/app.css             # styling for app-owned .wf-* classes
-assets/                    # SVG logo and icon
-.streamlit/config.toml     # dark theme
-tests/test_app.py          # headless acceptance checks (streamlit.testing AppTest)
-app_data/                  # PUBLISHED, publication-safe display views (CC BY-SA 4.0)
-  reference/               # verbatim copies of 4 non-personal source tables
-scripts/prepare_data.py    # rebuilds app_data/ from the private originals and applies redaction
-scripts/redaction.py       # masking rules and leak checks
-data/corrections/          # manually verified summary corrections with transcript evidence (published)
-data/processed/integrated/ # PRIVATE: 11 original integration files, git-ignored, never modified
-```
+License terms: CC BY-SA 4.0
 
-## Data and evaluation methodology
+Source dataset use: The benchmark is provided for evaluation and analysis, not for training or fine-tuning ASR/foundation models.
 
-- **12 calls**, 8 domains, 4 English accent groups; **776** transcript turns, of which 7 have zero-length timestamps. These 7 stay visible in the transcript but are left out of speech-time totals.
-- **281 scored customer turns.** Each has three class probabilities from `cardiffnlp/twitter-roberta-base-sentiment-latest`. The turn label is the class with the highest probability. Polarity = P(positive) − P(negative).
-- **Speaker roles are reference-assisted** (AppTek alignment, reference share ≥ 0.7), not fully automated. Transcript and sentiment now use the same rule. 85 turns differ from automated diarization and are flagged "role corrected", and 208 mixed-speaker segments are flagged. With reference roles, the transcript has 443 agent and 333 customer turns; diarization alone gave 424 and 352.
-- **Sentiment coverage.** CALL_006's scored turns stop at 71% of the call, so its closing label is flagged as partial.
-- **Summaries** are Qwen3 output shown verbatim, except 10 manually verified corrections, which are labelled as such. Other summary text was not exhaustively re-verified.
-- **`sentiment_change`** is a numeric score from the source data, not a percentage and not CSAT. The opening → closing *category* transition is a separate field, so the two are charted separately.
-- **WER/DER** are error rates, so lower is better. Whisper Small.en has a mean original WER of 20.85% and a mean filler-adjusted WER of 18.24%. Pyannote Community-1 has a mean DER of 19.93%, but CALL_005 (55.0%) and CALL_006 (50.9%) are much higher.
-- **Summary quality** is a reviewer's score on a 1–5 rubric (factual accuracy, completeness, outcome accuracy), not model confidence. Qwen3-4B averages 3.83/5 against 3.31/5 for Qwen2.5-3B. Qwen3 scored lower on 4 calls and tied on 1.
-- The dataset has **no** call dates, agent IDs, CSAT, resolution flags, or SLA/AHT data, so the app shows none of these.
+Attribution: Credit AppTek.ai when sharing original or adapted dataset content. Applicable share-alike obligations may apply to redistributed adaptations.
 
-## Running the checks
+This repository documents the project's own processing, evaluation, and presentation. The dataset license is not automatically a license declaration for independently authored source code.
 
-```bash
-pip install pytest
-python -m pytest tests -q
-```
+Author
 
-The checks confirm the following:
+Yasir Aladwani — AI Engineer · Data Science & Machine Learning
 
-- `prepare_data.py` leaves the 11 originals unchanged (SHA-256 compared before and after). This test is skipped in a public clone, where the originals are absent.
-- The published `app_data/` text contains no residual email, phone or surname patterns.
-- The redaction rules behave as expected on synthetic examples, and the app's runtime code never reads the private folder.
-- The dataset counts are correct.
-- Every scored sentiment turn is a customer turn in the transcript; roles change only where the reference alignment is decisive, and the diarization roles are preserved.
-- Verified corrections cite transcript turns that exist, the original model text is unchanged, and CALL_006 is flagged for partial sentiment coverage.
-- Every page renders without exceptions.
-- The unfiltered KPIs are correct.
-- CALL_001 to CALL_012 can each be selected.
-- Filters update the views, and an empty result shows a proper empty state.
-- A selected call that a filter removes falls back cleanly.
-- Keyword search reaches transcript turns.
-- HTML in transcript text is escaped.
+LinkedIn · GitHub
 
-## Publication and privacy note
-
-- **Only redacted data is published.** `app_data/` contains the masked views described above. The unredacted integration results in `data/processed/integrated/` are git-ignored. Never force-add them, and never upload the original ZIP export.
-- If you regenerate the views, rerun `python -m pytest tests -q` before you commit. The leak check fails if an identifier slips through.
-- Rule-based masking is not a guarantee. If you add new transcripts, review the output by hand before you publish.
-- No credentials or secrets are needed or stored. `.streamlit/secrets.toml` is git-ignored.
+<p align="center"><sub>WeshFahmna AI — From conversations to clarity, with evidence and evaluation.</sub></p>
