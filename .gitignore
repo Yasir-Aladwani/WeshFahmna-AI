@@ -1,0 +1,12 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Claude
+CLAUDE.local.md
+
+# Secrets
+.env
+.env.*
+.streamlit/secrets.toml
