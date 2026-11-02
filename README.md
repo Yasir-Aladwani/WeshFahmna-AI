@@ -11,7 +11,7 @@
 
 <h2 align="center">
   <a href="https://weshfahmna-ai.streamlit.app/">
-     Explore the Live Dashboard ↗
+     Explore the Live Dashboard  ↗
   </a>
 </h2>
 
