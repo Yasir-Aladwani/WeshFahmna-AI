@@ -55,6 +55,15 @@
       "evidence_turns": [82.06, 86.92, 116.6, 124.88, 196.03]
     },
     {
+      "call_id": "CALL_010",
+      "field": "notes_limitations",
+      "category": "verification_status",
+      "issue": "The model wrote that the customer did not confirm receiving the verification code. In the call, the agent asked the customer to read the code, and the customer read it back.",
+      "find": "The customer did not confirm receipt of the verification code or the balance update in real time.",
+      "replace": "The customer received the verification code and read it back to the agent, but did not confirm the balance update during the call.",
+      "evidence_turns": [186.04, 188.86, 190.84]
+    },
+    {
       "call_id": "CALL_005",
       "field": "final_outcome",
       "category": "transaction_status",

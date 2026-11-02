@@ -12,7 +12,7 @@
     "transcript_turns_role_uncertain": 108,
     "scored_turns_not_customer_in_transcript": 0,
     "calls_with_partial_closing_sentiment_coverage": 1,
-    "verified_corrections": 9
+    "verified_corrections": 10
   },
   "speaker_roles": {
     "displayed_role": "AppTek reference role where reference_share >= 0.7 (the rule used to select scored customer turns); otherwise the diarization role, flagged as uncertain",
@@ -46,7 +46,8 @@
       "CALL_010": [
         "agent_action",
         "final_outcome",
-        "summary"
+        "summary",
+        "notes_limitations"
       ],
       "CALL_011": [
         "summary"

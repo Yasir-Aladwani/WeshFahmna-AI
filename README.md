@@ -83,7 +83,7 @@ An independent review of the published data found the issues below. Each one was
 - **Uncertain segments.** The 108 segments below 70% keep their diarization role and are marked "role uncertain".
 - **Diarization role kept.** The original role is still available in `diarization_role`.
 
-**Summary corrections.** Nine fields across four calls are shown as "verified correction" in Call explorer, with the original Qwen3 output and the evidence timestamps one click away.
+**Summary corrections.** Ten fields across four calls are shown as "verified correction" in Call explorer, with the original Qwen3 output and the evidence timestamps one click away.
 
 | Call | Fields | Correction |
 | --- | --- | --- |
@@ -136,7 +136,7 @@ data/processed/integrated/ # PRIVATE: 11 original integration files, git-ignored
 - **281 scored customer turns.** Each has three class probabilities from `cardiffnlp/twitter-roberta-base-sentiment-latest`. The turn label is the class with the highest probability. Polarity = P(positive) − P(negative).
 - **Speaker roles are reference-assisted** (AppTek alignment, reference share ≥ 0.7), not fully automated. Transcript and sentiment now use the same rule. 85 turns differ from automated diarization and are flagged "role corrected", and 208 mixed-speaker segments are flagged. With reference roles, the transcript has 443 agent and 333 customer turns; diarization alone gave 424 and 352.
 - **Sentiment coverage.** CALL_006's scored turns stop at 71% of the call, so its closing label is flagged as partial.
-- **Summaries** are Qwen3 output shown verbatim, except 9 manually verified corrections, which are labelled as such. Other summary text was not exhaustively re-verified.
+- **Summaries** are Qwen3 output shown verbatim, except 10 manually verified corrections, which are labelled as such. Other summary text was not exhaustively re-verified.
 - **`sentiment_change`** is a numeric score from the source data, not a percentage and not CSAT. The opening → closing *category* transition is a separate field, so the two are charted separately.
 - **WER/DER** are error rates, so lower is better. Whisper Small.en has a mean original WER of 20.85% and a mean filler-adjusted WER of 18.24%. Pyannote Community-1 has a mean DER of 19.93%, but CALL_005 (55.0%) and CALL_006 (50.9%) are much higher.
 - **Summary quality** is a reviewer's score on a 1–5 rubric (factual accuracy, completeness, outcome accuracy), not model confidence. Qwen3-4B averages 3.83/5 against 3.31/5 for Qwen2.5-3B. Qwen3 scored lower on 4 calls and tied on 1.
