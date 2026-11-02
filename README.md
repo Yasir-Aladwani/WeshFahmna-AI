@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/branding/weshfahmna-cover.svg" alt="WeshFahmna AI — Call Center Conversation Intelligence" width="100%">
+  <img src="assets/branding/weshfahmna-logo.png" alt="WeshFahmna AI — Call Center Analytics" width="78%">
 </p>
 
 <p align="center">
@@ -25,595 +25,654 @@
   <a href="#data-license--attribution">Data & License</a>
 </p>
 
-Project scope: This is a 12-call evaluation and visualization prototype, not a live call-monitoring or employee-scoring system. Speech processing and language-model inference are performed offline; the Streamlit dashboard reads prepared results. The original dataset consists of role-played English customer-service calls, not private customer recordings.
+> **Project scope:** This is a **12-call evaluation and visualization prototype**, not a live call-monitoring or employee-scoring system. Speech processing and language-model inference are performed **offline**; the Streamlit dashboard reads prepared results. The original dataset consists of **role-played English customer-service calls**, not private customer recordings.
 
-Table of Contents
+---
 
-#
+## Table of Contents
 
-Section
+| # | Section | Description |
+|:--:|---|---|
+| 01 | [Overview](#overview) | What WeshFahmna AI does |
+| 02 | [Project Problem](#project-problem) | Why conversation analysis matters |
+| 03 | [Key Features](#key-features) | Main analytical capabilities |
+| 04 | [System Architecture](#system-architecture) | Offline processing and dashboard layers |
+| 05 | [AI Pipeline](#ai-pipeline) | From recordings to actionable insights |
+| 06 | [Dataset & Scope](#dataset--scope) | Public data source and pilot coverage |
+| 07 | [Models & Tech Stack](#models--tech-stack) | Speech, diarization, NLP, and visualization |
+| 08 | [Interactive Dashboard](#interactive-dashboard) | What the application shows |
+| 09 | [Evaluation Results](#evaluation-results) | Measured quality and sample statistics |
+| 10 | [Reproducibility](#reproducibility) | How the results are organized |
+| 11 | [Run Locally](#run-locally) | Start the Streamlit interface |
+| 12 | [Repository Structure](#repository-structure) | Code, data, and documentation layout |
+| 13 | [Limitations](#limitations) | What the system does not establish |
+| 14 | [Data License & Attribution](#data-license--attribution) | Dataset credit and permitted uses |
+| 15 | [Author](#author) | Project owner |
 
-Description
+---
 
-01
+## Overview
 
-Overview
+**WeshFahmna AI | وش فهمنا؟** is an end-to-end AI project that explores how customer-service conversations can be transformed into understandable, reviewable insights.
 
-What WeshFahmna AI does
+The pipeline combines **automatic speech recognition**, **speaker diarization**, **structured call summarization**, and **customer sentiment analysis**. Its outputs are joined into a Streamlit dashboard for examining individual calls, overall conversation trends, and model reliability.
 
-02
+Instead of presenting AI predictions without context, the project also reports **Word Error Rate (WER)**, **Diarization Error Rate (DER)**, model-comparison scores, and data-provenance notes. This makes the difference between **what the system inferred** and **what the reference data supports** explicit.
 
-Project Problem
+### At a Glance
 
-Why conversation analysis matters
+| 12 Calls Analyzed | 118.83 Minutes | 776 Speaker Turns | 281 Customer Turns Scored |
+|:---:|:---:|:---:|:---:|
+| **8 Service Domains** | **4 Accent Groups** | **2 Summarization Models Compared** | **5 Dashboard Pages** |
 
-03
+---
 
-Key Features
+## Project Problem
 
-Main analytical capabilities
+Long customer-service calls contain useful information, but reviewing them individually is time-consuming.
 
-04
+Critical details can be scattered across many turns:
 
-System Architecture
+- Why the customer called.
+- What the agent did.
+- What outcome was reached.
+- How the customer's language changed during the interaction.
 
-Offline processing and dashboard layers
+A useful analysis tool should organize these details while also exposing uncertainty.
 
-05
+Errors in transcription, speaker attribution, and generated summaries can affect downstream interpretation.
 
-AI Pipeline
+WeshFahmna AI therefore treats **model quality and traceability** as part of the product, not an afterthought.
 
-From recordings to actionable insights
+---
 
-06
+## Key Features
 
-Dataset & Scope
+| Capability | What It Provides |
+|---|---|
+| **Call Summarization** | Structured customer issue, agent action, and outcome/next-step fields from Qwen models |
+| **Speech Transcription** | English ASR outputs generated with faster-whisper (`small.en`) |
+| **Speaker Analysis** | Diarization experiments, timestamped turns, and reviewable attribution results |
+| **Customer Sentiment** | Call-level sentiment, customer-turn classification, and beginning-to-end comparisons |
+| **Interactive Exploration** | Searchable calls, filters, transcripts, evidence, and sentiment timelines |
+| **Quality Evaluation** | Per-call WER/DER, adjusted WER, and Qwen2.5-versus-Qwen3 quality comparisons |
+| **Reproducible Outputs** | Structured CSV/JSON exports, methodology notes, and provenance metadata |
 
-Public data source and pilot coverage
+---
 
-07
+## System Architecture
 
-Models & Tech Stack
+WeshFahmna AI follows a modular architecture that separates **compute-intensive offline AI processing** from the **lightweight Streamlit analytics interface**.
 
-Speech, diarization, NLP, and visualization
+This design allows users to explore precomputed results without downloading large AI models or reprocessing the original audio recordings.
 
-08
+<p align="center">
+  <img src="assets/architecture/system-architecture.png" alt="WeshFahmna AI System Architecture" width="100%">
+</p>
 
-Interactive Dashboard
+### Architecture Components
 
-What the application shows
+**1. Data Source**
 
-09
+The system uses the AppTek Call-Center Dialogues dataset, which provides English-language customer-service conversations with reference transcripts, speaker annotations, and metadata.
 
-Evaluation Results
+**2. Offline AI Processing**
 
-Measured quality and sample statistics
+The analysis pipeline integrates several AI models:
 
-10
+- Whisper for automatic speech recognition.
+- Pyannote for speaker diarization.
+- Qwen for structured call summarization.
+- RoBERTa for customer sentiment classification.
 
-Reproducibility
+**3. Data Integration & Validation**
 
-How the results are organized
+Model outputs are integrated into structured CSV and JSON files.
 
-11
+This layer handles:
 
-Run Locally
+- Call and transcript alignment.
+- Reference-assisted speaker-role attribution.
+- Model evaluation metrics.
+- Data validation and consistency checks.
+- Provenance and methodology documentation.
 
-Start the Streamlit interface
+**4. Streamlit Application**
 
-12
+The prepared outputs are loaded into an interactive dashboard for call exploration, sentiment visualization, and model-quality assessment.
 
-Repository Structure
+> **Execution Model:** AI inference is performed offline using Google Colab. The deployed Streamlit application reads precomputed results and does not execute ASR, diarization, or LLM inference during dashboard interaction.
 
-Code, data, and documentation layout
+> **Speaker Attribution:** The dashboard uses reference-assisted customer/agent labels where available. Raw speaker diarization is evaluated separately.
 
-13
+---
 
-Limitations
+## AI Pipeline
 
-What the system does not establish
+The project follows an end-to-end workflow from dataset acquisition to interactive visualization.
 
-14
+<p align="center">
+  <img src="assets/pipeline/project-pipeline.jpeg" alt="WeshFahmna AI Project Pipeline" width="100%">
+</p>
 
-Data License & Attribution
+### Processing Workflow
 
-Dataset credit and permitted uses
+**Stage 1 — Data Acquisition**
 
-15
+- Explore publicly available call-center datasets.
+- Select the AppTek Call-Center Dialogues dataset.
+- Inspect reference transcripts, speaker labels, and audio metadata.
+- Select 12 English-language conversations for evaluation.
 
-Author
+**Stage 2 — Audio & Speech Processing**
 
-Project owner
+- Transcribe calls using faster-whisper.
+- Compare generated transcripts against reference annotations.
+- Calculate Word Error Rate (WER).
+- Evaluate filler-adjusted transcription accuracy.
 
-Overview
+**Stage 3 — Speaker Analysis**
 
-WeshFahmna AI | وش فهمنا؟ is an end-to-end AI project that explores how customer-service conversations can be transformed into understandable, reviewable insights.
+- Apply Pyannote speaker diarization.
+- Analyze speaker segmentation quality.
+- Calculate Diarization Error Rate (DER).
+- Review speaker attribution against available reference labels.
 
-The pipeline combines automatic speech recognition, speaker diarization, structured call summarization, and customer sentiment analysis. Its outputs are joined into a Streamlit dashboard for examining individual calls, overall conversation trends, and model reliability.
+**Stage 4 — Conversation Intelligence**
 
-Instead of presenting AI predictions without context, the project also reports Word Error Rate (WER), Diarization Error Rate (DER), model-comparison scores, and data-provenance notes. This makes the difference between what the system inferred and what the reference data supports explicit.
+- Generate structured summaries using Qwen.
+- Extract customer issues, agent actions, and outcomes.
+- Classify customer sentiment using RoBERTa.
+- Evaluate summaries for factual accuracy, completeness, and outcome accuracy.
 
-At a glance
+**Stage 5 — Analytics & Deployment**
 
-12 calls analyzed
+- Integrate processed results.
+- Validate structured CSV/JSON outputs.
+- Build interactive visualizations using Streamlit and Plotly.
+- Prepare the application for deployment through Streamlit Community Cloud.
 
-118.83 minutes
+---
 
-776 speaker turns
+## Dataset & Scope
 
-281 customer turns scored
+### Data Source
 
-8 service domains
+The project uses the publicly available:
 
-4 accent groups
+**[AppTek Call-Center Dialogues Dataset](https://huggingface.co/datasets/apptek-com/apptek_callcenter_dialogues)**
 
-2 summarization models compared
+Developed and published by **AppTek.ai**.
 
-4 main dashboard views
+The dataset contains role-played English customer-service conversations with speaker annotations, transcripts, and associated metadata.
 
-Project Problem
+The project uses the **`diarization` configuration**.
 
-Long customer-service calls contain useful information, but reviewing them individually is time-consuming. Critical details can be scattered across many turns: why the customer called, what the agent did, what outcome was reached, and how the customer's language changed during the interaction.
+### Dataset Characteristics
 
-A useful analysis tool should organize these details while also exposing uncertainty. Errors in transcription, speaker attribution, and generated summaries can affect downstream interpretation. WeshFahmna AI therefore treats model quality and traceability as part of the product, not an afterthought.
+| Characteristic | Value |
+|---|---|
+| Dataset | AppTek Call-Center Dialogues |
+| Language | English |
+| Conversation Type | Role-played customer-service calls |
+| Selected Calls | 12 |
+| Sampling Seed | 42 |
+| Total Duration | 118.83 minutes |
+| Average Call Duration | 9.90 minutes |
+| Service Domains | 8 |
+| Accent Groups | 4 |
+| Speaker Turns | 776 |
+| Scored Customer Turns | 281 |
 
-Key Features
+The selected calls represent a small evaluation sample rather than the complete dataset.
 
-Capability
+---
 
-What it provides
+## Models & Tech Stack
 
-Call Summarization
+### AI Models
 
-Structured customer issue, agent action, and outcome/next-step fields from Qwen models
+| Task | Model | Purpose |
+|---|---|---|
+| Speech Recognition | faster-whisper `small.en` | Audio transcription |
+| Speaker Diarization | Pyannote Audio | Speaker segmentation |
+| Call Summarization | Qwen2.5-3B-Instruct | Baseline summarization |
+| Call Summarization | Qwen3-4B-Instruct-2507 | Structured summaries and comparison |
+| Sentiment Analysis | Twitter-RoBERTa | Customer sentiment classification |
 
-Speech Transcription
+### Data Processing
 
-English ASR outputs generated with faster-whisper (small.en)
+- Python
+- Pandas
+- NumPy
+- CSV / JSON
+- Google Colab
 
-Speaker Analysis
+### Frontend & Visualization
 
-Diarization experiments, timestamped turns, and reviewable attribution results
+- Streamlit
+- Plotly
+- Interactive dashboards
+- Searchable conversation views
+- Sentiment timeline visualization
 
-Customer Sentiment
+### Evaluation
 
-Call-level sentiment, customer-turn classification, and beginning-to-end comparisons
+- Word Error Rate (WER)
+- Filler-Adjusted WER
+- Diarization Error Rate (DER)
+- Structured Summary Quality Evaluation
+- Sentiment Distribution Analysis
 
-Interactive Exploration
+### Development & Deployment
 
-Searchable calls, filters, transcripts, evidence, and sentiment timelines
+- Git
+- GitHub
+- Google Colab
+- Streamlit Community Cloud
 
-Quality Evaluation
+---
 
-Per-call WER/DER, adjusted WER, and Qwen2.5-versus-Qwen3 quality comparisons
+## Interactive Dashboard
 
-Reproducible Outputs
+WeshFahmna AI includes an interactive analytics application designed to transform model outputs into understandable insights.
 
-Structured CSV/JSON exports, methodology notes, and provenance metadata
+### 1. Overview
 
-System Architecture
+The Overview page presents high-level statistics about the analyzed conversations.
 
-The system separates compute-intensive offline inference from the lightweight, read-only Streamlit interface. This is intentional: dashboard visitors can inspect results without downloading large models or reprocessing audio.
+Key components include:
 
-flowchart TB
-    A["AppTek Call-Center Dialogues<br/>public benchmark audio + references"]
-    subgraph P["Offline AI Processing"]
-        B["Speech recognition<br/>faster-whisper small.en"]
-        C["Speaker diarization<br/>pyannote.audio"]
-        D["Call summarization<br/>Qwen2.5 / Qwen3"]
-        E["Customer sentiment<br/>RoBERTa"]
-        F["Evaluation + source alignment<br/>WER, DER, rubric, attribution audit"]
-    end
-    subgraph S["Prepared Data Layer"]
-        G["Validated CSV / JSON exports"]
-        H["Dashboard-ready data views"]
-    end
-    subgraph U["Presentation Layer"]
-        I["Streamlit dashboard"]
-        J["Overview · Call Explorer<br/>Sentiment · Model Quality"]
-    end
-    A --> B
-    A --> C
-    A --> D
-    A --> E
-    A --> F
-    B --> F
-    C --> F
-    D --> F
-    E --> F
-    F --> G --> H --> I --> J
+- Total analyzed calls.
+- Total recording duration.
+- Average call duration.
+- Service-domain distribution.
+- Accent distribution.
+- Overall customer sentiment.
+- Sentiment transitions.
 
-    classDef core fill:#0d253b,stroke:#18aeb6,color:#eefaff
-    classDef data fill:#163045,stroke:#8cbfe4,color:#eefaff
-    classDef ui fill:#253b50,stroke:#b9a1ff,color:#eefaff
-    class B,C,D,E,F core
-    class G,H data
-    class I,J ui
+### 2. Call Explorer
 
-Speaker-label disclosure: The dashboard's role-labeled transcripts use reference-assisted speaker attribution where available. Raw diarization is evaluated separately and should not be mistaken for fully automatic, error-free agent/customer identification.
+The Call Explorer provides detailed analysis for individual conversations.
 
-<!-- Optional: after uploading your previously designed system architecture SVG,
-     add it here with the correct relative path, for example:
-<p align="center"><img src="assets/architecture/system_architecture.svg" alt="System Architecture" width="95%"></p>
--->
+Users can inspect:
 
-AI Pipeline
+- Call metadata.
+- Customer issue.
+- Agent action.
+- Final outcome or next step.
+- AI-generated summary.
+- Timestamped transcript.
+- Customer sentiment.
+- Model-quality indicators.
 
-Select & inspect calls from the public AppTek diarization configuration.
+### 3. Sentiment Insights
 
-Transcribe speech using faster-whisper small.en and compare predictions with reference text.
+The Sentiment Insights page visualizes customer emotions throughout analyzed conversations.
 
-Analyze speakers using pyannote; retain both diarization metrics and reference-assisted role labels for the dashboard.
+It includes:
 
-Summarize each call into the customer issue, agent action, and outcome or next step; compare Qwen2.5 and Qwen3 outputs.
+- Positive, neutral, and negative sentiment distributions.
+- Customer-turn sentiment classification.
+- Sentiment timelines.
+- Beginning-to-end comparisons.
+- Sentiment probability scores.
 
-Score customer sentiment using a RoBERTa classifier; aggregate call-level interpretations and turn-level sentiment trajectories.
+### 4. Model Quality
 
-Evaluate and audit WER, filler-adjusted WER, DER, summary quality, and attribution limitations.
+The Model Quality page presents evaluation results for the AI pipeline.
 
-Prepare reproducible exports and serve the read-only analytical experience through Streamlit.
+It includes:
 
-flowchart LR
-    A["Public call audio"] --> B["ASR + speaker analysis"]
-    B --> C["Summaries + sentiment"]
-    C --> D["Evaluation + provenance"]
-    D --> E["CSV / JSON"]
-    E --> F["Streamlit insights"]
-    style A fill:#0d253b,stroke:#18aeb6,color:#ffffff
-    style F fill:#253b50,stroke:#b9a1ff,color:#ffffff
+- Speech recognition accuracy.
+- Original versus filler-adjusted WER.
+- Speaker diarization performance.
+- Qwen2.5 versus Qwen3 summarization quality.
+- Call-level evaluation results.
 
-<!-- Optional: replace the Mermaid pipeline with your exported Project Pipeline SVG
-     once it is committed to assets/pipeline/. -->
+### 5. About & Methodology
 
-Dataset & Scope
+The methodology section documents:
 
-Source: AppTek Call-Center Dialogues by AppTek.ai.
+- Dataset selection.
+- AI models.
+- Processing stages.
+- Evaluation procedures.
+- Data limitations.
+- Interpretation guidance.
 
-This benchmark contains role-played, long-form English customer-service conversations with accent, domain, transcript, and speaker annotations. The project uses its diarization configuration and analyzes a 12-call pilot sample (selection seed: 42).
+### Application Screenshots
 
-Pilot characteristic
+Screenshots of the finalized Streamlit application will be added here.
 
-Value
+---
 
-Calls
+## Evaluation Results
 
-12
+The following results were obtained from the selected **12-call evaluation sample**.
 
-Total recording duration
+### Speech Recognition Evaluation
 
-118.83 min
+| Evaluation Metric | Average Result |
+|---|---:|
+| Original Word Error Rate | **20.85%** |
+| Filler-Adjusted Word Error Rate | **18.24%** |
+| Improvement | **2.61 percentage points** |
 
-Average recording duration
+The filler-adjusted evaluation reduces the impact of selected filler-word mismatches.
 
-9.90 min
+However, filler-adjusted WER is a modified metric and should not be treated as directly equivalent to standard WER.
 
-Service domains represented
+### Speaker Diarization Evaluation
 
-8
+| Evaluation Metric | Result |
+|---|---:|
+| Average Diarization Error Rate | **19.93%** |
 
-Accent groups represented
+Speaker diarization performance varies across conversations.
 
-4
+Some calls exhibit considerably higher errors, emphasizing the importance of reference-assisted role attribution and human review.
 
-Timestamped speaker turns
+### Summarization Model Comparison
 
-776
+Two Qwen models were evaluated using structured quality criteria.
 
-Customer turns with sentiment scores
+| Model | Average Quality Score |
+|---|---:|
+| Qwen2.5-3B-Instruct | **3.31 / 5** |
+| Qwen3-4B-Instruct-2507 | **3.83 / 5** |
+| Average Improvement | **+0.53 / 5** |
 
-281
+Evaluation criteria included:
 
-The pilot is not the entire AppTek benchmark. The dataset's broader range of accents and service domains should not be confused with the coverage of this 12-call experiment.
+- Factual accuracy.
+- Information completeness.
+- Outcome accuracy.
 
-Models & Tech Stack
+Qwen3 achieved a higher average evaluation score across the pilot.
 
-Layer
+However, Qwen2.5 performed better on four individual calls, with one tie.
 
-Technology / model
+These scores reflect a limited-sample evaluation rather than guaranteed model performance across all conversations.
 
-Purpose
+### Customer Sentiment Analysis
 
-ASR
+#### Overall Call Sentiment
 
-faster-whisper · small.en
+| Sentiment | Number of Calls |
+|---|---:|
+| Positive | 4 |
+| Neutral | 8 |
+| Negative | 0 |
 
-English speech transcription
+#### Customer-Turn Sentiment
 
-Speaker diarization
+| Sentiment | Number of Turns |
+|---|---:|
+| Positive | 79 |
+| Neutral | 181 |
+| Negative | 21 |
+| **Total** | **281** |
 
-pyannote.audio
+#### Opening-to-Closing Sentiment
 
-Automatic speaker segmentation and DER evaluation
+| Sentiment Transition | Calls |
+|---|---:|
+| Neutral → Positive | 6 |
+| Neutral → Neutral | 3 |
+| Positive → Neutral | 2 |
+| Positive → Positive | 1 |
 
-Summarization
+> **Important:** Call-level and turn-level sentiment distributions represent different units of analysis. Sentiment classification does not establish verified customer satisfaction or issue resolution.
 
-Qwen2.5-3B-Instruct
+---
 
-Comparison baseline
+## Reproducibility
 
-Summarization
+The project stores intermediate and final results in structured, reusable formats.
 
-Qwen3-4B-Instruct-2507
+### Main Output Files
 
-Structured summary generation and comparative evaluation
+| File | Description |
+|---|---|
+| `calls.csv` | Call-level information and evaluation metrics |
+| `calls.json` | Structured call records and detailed analysis |
+| `speaker_turns.csv` | Timestamped speaker transcripts |
+| `customer_turn_sentiment.csv` | Customer sentiment predictions |
+| `diarization_metrics.csv` | Speaker diarization evaluation |
+| `filler_adjusted_wer.csv` | Speech recognition metric comparison |
+| `model_quality_comparison_12_calls.csv` | Summarization model comparison |
+| `final_quality_metrics.csv` | Aggregated model-quality metrics |
+| `speaker_attribution_review.csv` | Speaker-label alignment review |
+| `methodology.json` | Processing and evaluation methodology |
+| `provenance.json` | Data provenance and model information |
 
-Sentiment
+### Application Data Preparation
 
-cardiffnlp/twitter-roberta-base-sentiment-latest
+The application uses prepared analytical datasets located in:
 
-Customer utterance sentiment classification
+`app_data/`
 
-Data analysis
+These datasets support:
 
-Python · pandas · NumPy
+- Call exploration.
+- Transcript visualization.
+- Sentiment timelines.
+- Model-quality comparisons.
+- Dashboard statistics.
 
-Joining, validation, aggregations, metrics
+Prepared views can be regenerated using:
 
-Visualization
+```bash
+python scripts/prepare_data.py
+```
 
-Streamlit · Plotly
+The dashboard does not rerun the original AI models when displaying previously processed results.
 
-Interactive exploration and analytics
+---
 
-Experimentation
+## Run Locally
 
-Google Colab
+### 1. Clone the Repository
 
-Offline model experimentation
-
-Formats
-
-CSV · JSON
-
-Interoperable, reviewable outputs
-
-Important: A general-domain sentiment model can misinterpret customer-service language; its predictions are analytical signals, not verified customer satisfaction scores.
-
-Interactive Dashboard
-
-The interface is designed around four complementary views:
-
-View
-
-Main questions answered
-
-Executive Overview
-
-How many calls were analyzed? How are domains, accents, recording lengths, and overall sentiments distributed?
-
-Call Explorer
-
-What happened in a selected call? What do the summary, transcript, customer sentiment, and quality notes show?
-
-Customer Sentiment
-
-Which turns were classified positive/neutral/negative? How did the sentiment signal change within a call?
-
-Model Quality & Methodology
-
-How reliable are transcription, diarization, and summaries? What role do references and manual review play?
-
-Screenshots
-
-The layout is prepared for the final Streamlit screenshots. Once screenshots are committed, add them using this pattern:
-
-<!--
-### Executive Overview
-<p align="center"><img src="assets/screenshots/overview.png" alt="Executive Overview" width="95%"></p>
-
-### Call Explorer
-<p align="center"><img src="assets/screenshots/call_explorer.png" alt="Call Explorer" width="95%"></p>
-
-### Sentiment Analysis
-<p align="center"><img src="assets/screenshots/customer_sentiment.png" alt="Customer Sentiment" width="95%"></p>
-
-### Model Quality
-<p align="center"><img src="assets/screenshots/model_quality.png" alt="Model Quality" width="95%"></p>
--->
-
-Evaluation Results
-
-All results below refer to the 12-call pilot, using the project's stored evaluation tables—not the full AppTek benchmark.
-
-Speech and speaker quality
-
-Metric
-
-Pilot mean
-
-Interpretation
-
-Original WER
-
-20.85%
-
-Average word error rate before filler adjustment; lower is better
-
-Filler-adjusted WER
-
-18.24%
-
-Adjusted comparison after defined filler handling; lower is better
-
-DER
-
-19.93%
-
-Average speaker diarization error rate; lower is better
-
-WER improved by 2.61 percentage points under the project's filler-adjusted calculation. This adjusted metric must not be reported as directly interchangeable with standard WER.
-
-Summarization quality comparison
-
-Model
-
-Mean rubric score
-
-Qwen2.5
-
-3.31 / 5
-
-Qwen3
-
-3.83 / 5
-
-Mean difference (Qwen3 − Qwen2.5)
-
-+0.53 / 5
-
-The project uses a structured review rubric covering aspects such as factual accuracy, completeness, and outcome accuracy. Qwen3 scored higher on average, but Qwen2.5 performed better on 4 of the 12 calls, with 1 tie. These are small-sample review scores, not population-level guarantees.
-
-Customer sentiment snapshot
-
-Unit of analysis
-
-Distribution
-
-Overall call labels (12)
-
-8 neutral · 4 positive · 0 negative
-
-Customer-turn labels (281)
-
-181 neutral · 79 positive · 21 negative
-
-Opening → closing call labels
-
-6 neutral→positive · 3 neutral→neutral · 2 positive→neutral · 1 positive→positive
-
-The call-level and turn-level distributions are different measurements and must not be combined. A non-negative overall call label is not proof of satisfaction, resolution, or excellent agent performance.
-
-Reproducibility
-
-The processing stage produces auditable outputs rather than making new model calls on each dashboard visit.
-
-Export
-
-Contents
-
-calls.json / calls.csv
-
-Per-call metadata, summaries, and headline metrics
-
-speaker_turns.csv
-
-Timestamped, role-labeled transcript turns
-
-customer_turn_sentiment.csv
-
-Customer-turn sentiment scores and probabilities
-
-diarization_metrics.csv
-
-Per-call DER and alignment statistics
-
-filler_adjusted_wer.csv
-
-Standard versus adjusted ASR comparison
-
-model_quality_comparison_12_calls.csv
-
-Qwen2.5 and Qwen3 rubric comparisons
-
-final_quality_metrics.csv
-
-Aggregated model evaluations
-
-speaker_attribution_review.csv
-
-Audit trail for reference-assisted roles
-
-methodology.json / provenance.json
-
-Sources, model versions, assumptions, and caveats
-
-For the Streamlit app, scripts/prepare_data.py assembles the analytical views in app_data/, including call summaries, transcript turns, sentiment timelines, model quality, and a dataset manifest.
-
-No inference is rerun when viewing precomputed dashboard pages. Full model-level reproduction requires the original source dataset, model dependencies, processing notebooks/scripts, and the documented experiment settings.
-
-Run Locally
-
-The commands below assume the repository uses app.py as its Streamlit entry point and includes requirements.txt and the prepared app_data/ folder.
-
+```bash
 git clone https://github.com/Yasir-Aladwani/WeshFahmna-AI.git
 cd WeshFahmna-AI
+```
+
+### 2. Create a Virtual Environment
+
+```bash
 python -m venv .venv
+```
 
-Windows (PowerShell):
+### Windows
 
+```powershell
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-streamlit run app.py
+```
 
-macOS / Linux:
+### macOS / Linux
 
+```bash
 source .venv/bin/activate
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
+
+### 4. Launch the Application
+
+```bash
 streamlit run app.py
+```
 
-If you have the original integration exports and need to refresh the dashboard views:
+The application will open in your browser.
 
-python scripts/prepare_data.py
+### Deployment
 
-Deployment note: Streamlit Community Cloud should load the prepared dashboard files. The heavy ASR, diarization, and LLM experiments are designed to run separately, not on each app startup.
+The project is designed for deployment using **Streamlit Community Cloud**.
 
-Repository Structure
+The deployed application uses prepared analysis files and does not require GPU inference during normal dashboard usage.
 
-A clean repository organization for the processing outputs and dashboard is:
+---
 
+## Repository Structure
+
+```text
 WeshFahmna-AI/
-├── app.py                      # Streamlit entry point
-├── app_data/                   # Dashboard-ready CSV/JSON views
-├── scripts/
-│   └── prepare_data.py        # Rebuild analytical views
-├── data/
-│   └── processed/              # Audited integration exports (when included)
-├── notebooks/                  # Offline experiments (when included)
+│
+├── app.py
+│
+├── app_data/
+│   ├── calls_dashboard.csv
+│   ├── transcript_turns_dashboard.csv
+│   ├── sentiment_timeline_dashboard.csv
+│   ├── summary_quality_dashboard.csv
+│   └── data_manifest.json
+│
 ├── assets/
 │   ├── branding/
-│   │   └── weshfahmna-cover.svg
-│   ├── architecture/           # Add exported architecture SVG here
-│   ├── pipeline/               # Add exported pipeline SVG here
-│   └── screenshots/            # Add final app screenshots here
+│   │   └── weshfahmna-logo.png
+│   │
+│   ├── architecture/
+│   │   └── system-architecture.png
+│   │
+│   ├── pipeline/
+│   │   └── project-pipeline.jpeg
+│   │
+│   └── screenshots/
+│
+├── scripts/
+│   └── prepare_data.py
+│
+├── data/
+│   └── processed/
+│
+├── notebooks/
+│
 ├── requirements.txt
+│
 └── README.md
+```
 
-This is the target layout for publication; update filenames in this section if the final GitHub repository differs.
+The structure above represents the intended project organization. Some folders are optional depending on the published repository contents.
 
-Limitations
+---
 
-Small pilot: 12 role-played calls do not represent all accents, domains, or real-world service conditions.
+## Limitations
 
-Reference-assisted roles: dashboard customer/agent labels depend on dataset references; raw diarization is a separately evaluated experiment. Some calls have high DER (for example, CALL_005 and CALL_006).
+Although WeshFahmna AI demonstrates an end-to-end conversation analysis pipeline, several limitations should be considered.
 
-ASR and summaries are imperfect: recognition mistakes can propagate into generated summaries and sentiment interpretation.
+### Dataset Limitations
 
-Sentiment is not CSAT: inferred tone is not a customer survey, and it cannot establish whether an issue was resolved.
+- The evaluation uses only 12 conversations.
+- The original recordings are role-played rather than real customer interactions.
+- The dataset represents a limited selection of accents and service domains.
 
-No operational KPIs: the available data does not establish true Average Handle Time, First Contact Resolution, SLA compliance, or agent productivity. Recording duration is not the same as instrumented handle time.
+### Speech Recognition
 
-Not a real-time application: the published dashboard is a visualization of preprocessed outputs, not a live audio ingestion service.
+- Automatic transcription can introduce word substitutions, deletions, and insertions.
+- Recognition accuracy varies across individual calls.
+- Transcription errors can influence downstream NLP tasks.
 
-Human review remains necessary: model outputs should not be used as the sole basis for evaluating employees or making consequential decisions.
+### Speaker Diarization
 
-Data License & Attribution
+- Speaker segmentation is not perfectly accurate.
+- Some conversations exhibit relatively high DER.
+- Reference annotations assist customer/agent role identification.
 
-The underlying benchmark is AppTek Call-Center Dialogues, created and shared by AppTek.ai, under Creative Commons Attribution–ShareAlike 4.0 (CC BY-SA 4.0).
+### Sentiment Analysis
 
-Dataset: AppTek Call-Center Dialogues on Hugging Face
+- Sentiment predictions are generated automatically.
+- Neutral sentiment does not necessarily indicate customer satisfaction.
+- Sentiment classification is not a substitute for customer satisfaction surveys.
 
-License terms: CC BY-SA 4.0
+### Summarization
 
-Source dataset use: The benchmark is provided for evaluation and analysis, not for training or fine-tuning ASR/foundation models.
+- Language models can omit details or generate inaccurate statements.
+- Summary quality varies across conversations.
+- Human review remains important for high-stakes applications.
 
-Attribution: Credit AppTek.ai when sharing original or adapted dataset content. Applicable share-alike obligations may apply to redistributed adaptations.
+### Operational Limitations
 
-This repository documents the project's own processing, evaluation, and presentation. The dataset license is not automatically a license declaration for independently authored source code.
+The dataset does not provide sufficient operational evidence for measuring:
 
-Author
+- Actual First Contact Resolution (FCR).
+- Verified Customer Satisfaction (CSAT).
+- Service Level Agreement (SLA) compliance.
+- Instrumented Average Handle Time (AHT).
+- Individual employee productivity.
 
-Yasir Aladwani — AI Engineer · Data Science & Machine Learning
+The project should not be used as an automated employee-ranking or disciplinary system.
 
-LinkedIn · GitHub
+---
 
-<p align="center"><sub>WeshFahmna AI — From conversations to clarity, with evidence and evaluation.</sub></p>
+## Data License & Attribution
+
+This project uses the publicly available **AppTek Call-Center Dialogues** dataset.
+
+**Dataset Provider:** AppTek.ai
+
+**Dataset Source:**
+
+[AppTek Call-Center Dialogues — Hugging Face](https://huggingface.co/datasets/apptek-com/apptek_callcenter_dialogues)
+
+**Dataset License:**
+
+Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0).
+
+[View License](https://creativecommons.org/licenses/by-sa/4.0/)
+
+The dataset is used for research, evaluation, and educational analysis.
+
+The original dataset is intended for evaluation and analysis rather than training or fine-tuning foundation models.
+
+Any redistribution of original or adapted dataset materials must follow the applicable dataset license and attribution requirements.
+
+The dataset license does not automatically determine the license of independently developed application source code.
+
+---
+
+## Project Purpose
+
+WeshFahmna AI demonstrates the practical integration of multiple AI technologies into a unified conversation analytics workflow.
+
+The project showcases:
+
+- Speech recognition.
+- Speaker diarization.
+- Natural Language Processing.
+- Large Language Models.
+- Customer sentiment analysis.
+- AI evaluation and benchmarking.
+- Structured data engineering.
+- Interactive data visualization.
+- Reproducible AI experimentation.
+- Streamlit application development.
+
+Its primary objective is to explore how AI-generated conversation insights can be presented in a transparent, interpretable, and accessible format.
+
+---
+
+## Author
+
+**Yasir Aladwani**
+
+AI Engineer | Data Science & Machine Learning
+
+**LinkedIn:**  
+[linkedin.com/in/yasir-aladwani-99669a402](https://www.linkedin.com/in/yasir-aladwani-99669a402)
+
+**GitHub:**  
+[github.com/Yasir-Aladwani](https://github.com/Yasir-Aladwani)
+
+---
+
+<p align="center">
+  <strong>WeshFahmna AI</strong><br>
+  <em>From Conversations to Clarity.</em>
+</p>
