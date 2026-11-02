@@ -1,0 +1,5 @@
+metric,Qwen2.5-3B,Qwen3-4B,improvement
+Factual Accuracy,3.08,3.5,0.42
+Completeness,3.67,4.42,0.75
+Outcome Accuracy,3.17,3.58,0.42
+Overall Quality,3.31,3.83,0.53

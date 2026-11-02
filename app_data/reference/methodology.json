@@ -1,0 +1,15 @@
+{
+  "sentiment_model": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+  "transcription": "Whisper Small.en",
+  "speaker_attribution": "AppTek reference-assisted alignment",
+  "minimum_reference_share": 0.7,
+  "excluded_mixed_turns": 1,
+  "manual_checks": 4,
+  "calls_processed": 12,
+  "limitations": [
+    "Reference labels are required for speaker attribution.",
+    "Some Whisper segments may contain mixed speech.",
+    "RoBERTa was not trained specifically on call-center conversations.",
+    "Manual checks do not establish overall classification accuracy."
+  ]
+}

@@ -1,0 +1,13 @@
+call_id,accent,domain,der,inference_sec,aligned_turns
+CALL_001,en-US_General,food,0.069391,20.61,31
+CALL_002,en-US_General,hospitality,0.097804,26.33,48
+CALL_003,en-US_General,entertainment,0.211123,29.75,97
+CALL_004,en-GB,hospitality,0.147297,18.1,51
+CALL_005,en-GB,retail,0.55025,25.89,78
+CALL_006,en-GB,entertainment,0.508983,25.79,66
+CALL_007,en-IN,telecom,0.228521,26.86,105
+CALL_008,en-IN,insurance,0.16855,26.69,77
+CALL_009,en-IN,health,0.171854,18.22,66
+CALL_010,en-AU,banking,0.098316,17.95,52
+CALL_011,en-AU,insurance,0.066324,35.01,50
+CALL_012,en-AU,food,0.07279,37.51,55

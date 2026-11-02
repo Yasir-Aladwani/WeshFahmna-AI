@@ -1,0 +1,87 @@
+{
+  "project": "WeshFahmna AI",
+  "type": "offline_precomputed_demo",
+  "counts": {
+    "calls": 12,
+    "total_speaker_turns": 776,
+    "scored_customer_turns": 281,
+    "nonpositive_duration_turns": 7,
+    "customer_turns_original_speaker_agent_but_reference_customer": 32
+  },
+  "original_data_root": "data/processed/integrated (private; not published)",
+  "reference_data_root": "app_data/reference",
+  "publication_safe": true,
+  "redaction": {
+    "method": "rule-based masking of personal identifiers in free-text columns (scripts/redaction.py)",
+    "placeholders": [
+      "[EMAIL]",
+      "[PHONE]",
+      "[DATE OF BIRTH]",
+      "[REFERENCE]",
+      "[NUMBER]",
+      "[CARD DIGITS]",
+      "[CODE]",
+      "[SPELLED NAME]",
+      "[SURNAME]"
+    ],
+    "replacements_by_category": {
+      "card_digits": 1,
+      "date_of_birth": 3,
+      "dictated_number": 22,
+      "email": 35,
+      "identifier": 3,
+      "one_time_code": 1,
+      "phone": 14,
+      "reference_number": 4,
+      "spelled_name": 11,
+      "spoken_number": 13,
+      "surname": 61
+    },
+    "first_names_retained": true,
+    "numeric_values_changed": false
+  },
+  "prepared_views": [
+    "calls_dashboard.csv",
+    "transcript_turns_dashboard.csv",
+    "sentiment_timeline_dashboard.csv",
+    "summary_quality_dashboard.csv"
+  ],
+  "available_audio_files": false,
+  "has_call_dates_or_times": false,
+  "has_unique_agent_ids": false,
+  "has_ground_truth_csat_or_resolution": false,
+  "references_used_for_speaker_role_labels": true,
+  "source_provenance": {
+    "calls": 12,
+    "customer_sentiment_turns": 281,
+    "sources": {
+      "asr": "Whisper Small.en",
+      "diarization": "Pyannote Community-1",
+      "summary": "Qwen3-4B-Instruct-2507",
+      "sentiment": "cardiffnlp/twitter-roberta-base-sentiment-latest"
+    },
+    "limitations": "Speaker roles and sentiment alignment are reference-assisted; models are not rerun."
+  },
+  "source_methodology": {
+    "sentiment_model": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+    "transcription": "Whisper Small.en",
+    "speaker_attribution": "AppTek reference-assisted alignment",
+    "minimum_reference_share": 0.7,
+    "excluded_mixed_turns": 1,
+    "manual_checks": 4,
+    "calls_processed": 12,
+    "limitations": [
+      "Reference labels are required for speaker attribution.",
+      "Some Whisper segments may contain mixed speech.",
+      "RoBERTa was not trained specifically on call-center conversations.",
+      "Manual checks do not establish overall classification accuracy."
+    ]
+  },
+  "definitions": {
+    "sentiment_polarity": "positive_probability - negative_probability per scored customer turn (range -1 to 1)",
+    "sentiment_class_confidence": "highest of three probabilities for a scored customer turn; not calibrated call-wide confidence",
+    "sentiment_delta_direction": "sign of the supplied call-level sentiment_change score; not a categorical transition and not CSAT",
+    "wer_der_percent": "ratios multiplied by 100 for chart labels; lower is better",
+    "qwen_quality": "manual quality evaluation scored 1–5; NOT model confidence"
+  }
+}

@@ -1,7 +1,9 @@
 # Python
 .venv/
+venv/
 __pycache__/
 *.pyc
+.pytest_cache/
 
 # Claude
 CLAUDE.local.md
@@ -10,3 +12,22 @@ CLAUDE.local.md
 .env
 .env.*
 .streamlit/secrets.toml
+
+# Claude Code Implementation Instructions
+CLAUDE_CODE_IMPLEMENTATION_PROMPT.md
+
+# Private, unredacted original integration results (transcripts contain personal data).
+# Only the publication-safe views in app_data/ are published.
+data/processed/integrated/
+data/raw/
+*.zip
+
+# Local audio, if ever added (not part of this demo)
+*.wav
+*.mp3
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

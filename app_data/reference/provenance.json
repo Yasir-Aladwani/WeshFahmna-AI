@@ -1,0 +1,11 @@
+{
+  "calls": 12,
+  "customer_sentiment_turns": 281,
+  "sources": {
+    "asr": "Whisper Small.en",
+    "diarization": "Pyannote Community-1",
+    "summary": "Qwen3-4B-Instruct-2507",
+    "sentiment": "cardiffnlp/twitter-roberta-base-sentiment-latest"
+  },
+  "limitations": "Speaker roles and sentiment alignment are reference-assisted; models are not rerun."
+}
