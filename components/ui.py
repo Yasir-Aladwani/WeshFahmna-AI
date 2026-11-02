@@ -95,6 +95,18 @@ def text_block(label: str, text: str, tone: str = "default") -> None:
             f'<p class="wf-text-body">{body}</p></div>')
 
 
+def partial_coverage_caption(calls: pd.DataFrame) -> None:
+    """Name calls whose closing label is not backed by scored turns near the end of the call."""
+    if "closing_sentiment_coverage" not in calls:
+        return
+    partial = calls[calls["closing_sentiment_coverage"] == "partial"]
+    if not partial.empty:
+        st.caption("Partial closing coverage: " + "; ".join(
+            f"{r.call_id} (scored customer turns end at {format_timestamp(r.last_scored_turn_end_sec)} of "
+            f"{format_timestamp(r.duration_sec)})" for r in partial.itertuples())
+            + ". Closing labels for these calls may not reflect how the call ended.")
+
+
 def highlight(text: str, query: str) -> str:
     """Escape ``text`` and wrap case-insensitive matches of ``query`` in <mark>."""
     if not query:
@@ -117,6 +129,16 @@ def transcript_html(turns: pd.DataFrame, sentiment: pd.DataFrame, query: str = "
         if not t.valid_time_span:
             meta += '<span class="wf-turn-flag" title="Start and end timestamps are equal; ' \
                     'excluded from speech-duration estimates.">zero-length timestamp</span>'
+        share = getattr(t, "reference_share", float("nan"))
+        if getattr(t, "role_corrected", False):
+            meta += f'<span class="wf-turn-flag" title="Automated diarization labelled this segment ' \
+                    f'{E(str(t.diarization_role))}; the AppTek reference alignment attributes {share:.0%} of it ' \
+                    f'to the {E(role)} (threshold 70%).">role corrected · reference-assisted</span>'
+        if getattr(t, "mixed_speaker_segment", False):
+            label = f"mixed speakers · {share:.0%} {role}" if getattr(t, "role_source", "") == "reference" \
+                else "mixed speakers · role uncertain"
+            meta += f'<span class="wf-turn-flag" title="This transcript segment contains speech from both ' \
+                    f'parties; only {share:.0%} of it aligns to its main reference speaker.">{E(label)}</span>'
         s = scored.get(round(float(t.start), 2))
         if s is not None and role != "customer":
             meta += '<span class="wf-turn-flag" title="This turn is labelled agent in the transcript, but the ' \

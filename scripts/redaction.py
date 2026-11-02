@@ -28,8 +28,9 @@ RULES: list[tuple[str, re.Pattern, str]] = [
     ("email", re.compile(r"\be r y k a h dot b l a c k eight four at g\b", re.I), "[EMAIL]"),
     # Letter-by-letter email addresses: "rocks-R-O-C-K-S-at-gmail.com", "E -R -Y ... -at -gmail.com".
     ("email", re.compile(rf"(?:\b[a-z]+\s?-\s?)?(?:\b[a-z]\s?-\s?){{2,}}at\s?-\s?{_DOMAIN}", re.I), "[EMAIL]"),
-    # Written email addresses, including ASR spacing like "honey@ gmail.com".
-    ("email", re.compile(r"[\w.+-]+\s?@\s?[\w-]+(?:\s?\.\s?[\w-]+)+", re.I), "[EMAIL]"),
+    # Written email addresses, including ASR spacing like "honey@ gmail.com". A dot followed by a
+    # space ends the address, so "gmail.com. All items" keeps the next sentence intact.
+    ("email", re.compile(r"[\w.+-]+\s?@\s?[\w-]+(?:\s?\.[\w-]+)+", re.I), "[EMAIL]"),
     # Spoken email addresses: "<up to 6 tokens> at [the rate of|the red] gmail.com", "rocks-at-gmail.com".
     ("email", re.compile(rf"(?:{_LOCAL_TOKEN}[\s,]+){{0,6}}{_LOCAL_TOKEN}[\s-]*\bat\b(?:\s+the\s+(?:rate\s+of|red))?"
                          rf"[\s-]*{_DOMAIN}", re.I), "[EMAIL]"),

@@ -6,7 +6,57 @@
     "total_speaker_turns": 776,
     "scored_customer_turns": 281,
     "nonpositive_duration_turns": 7,
-    "customer_turns_original_speaker_agent_but_reference_customer": 32
+    "customer_turns_original_speaker_agent_but_reference_customer": 32,
+    "transcript_turns_role_corrected_to_reference": 85,
+    "transcript_turns_mixed_speaker": 208,
+    "transcript_turns_role_uncertain": 108,
+    "scored_turns_not_customer_in_transcript": 0,
+    "calls_with_partial_closing_sentiment_coverage": 1,
+    "verified_corrections": 9
+  },
+  "speaker_roles": {
+    "displayed_role": "AppTek reference role where reference_share >= 0.7 (the rule used to select scored customer turns); otherwise the diarization role, flagged as uncertain",
+    "diarization_role": "original Pyannote speaker-cluster role mapping, kept unchanged in diarization_role",
+    "mixed_speaker_segment": "reference_share < 0.9: the segment contains speech from both parties",
+    "turn_counts_by_role": {
+      "agent": 443,
+      "customer": 333
+    },
+    "diarization_turn_counts_by_role": {
+      "agent": 424,
+      "customer": 352
+    }
+  },
+  "sentiment_coverage": {
+    "rule": "closing sentiment coverage is \"partial\" when scored customer turns end before 90% of the recorded call duration",
+    "partial_calls": [
+      "CALL_006"
+    ]
+  },
+  "verified_corrections": {
+    "file": "verified_corrections.csv",
+    "source": "data/corrections/verified_corrections.json",
+    "policy": "Original Qwen3 summary fields stay verbatim in calls_dashboard.csv. Manually verified corrections are published separately with transcript evidence; the app shows the corrected text and labels it.",
+    "evaluation_scores_refer_to": "the original model output (rubric scores are unchanged)",
+    "by_call": {
+      "CALL_005": [
+        "final_outcome",
+        "summary"
+      ],
+      "CALL_010": [
+        "agent_action",
+        "final_outcome",
+        "summary"
+      ],
+      "CALL_011": [
+        "summary"
+      ],
+      "CALL_012": [
+        "agent_action",
+        "final_outcome",
+        "summary"
+      ]
+    }
   },
   "original_data_root": "data/processed/integrated (private; not published)",
   "reference_data_root": "app_data/reference",
@@ -44,7 +94,8 @@
     "calls_dashboard.csv",
     "transcript_turns_dashboard.csv",
     "sentiment_timeline_dashboard.csv",
-    "summary_quality_dashboard.csv"
+    "summary_quality_dashboard.csv",
+    "verified_corrections.csv"
   ],
   "available_audio_files": false,
   "has_call_dates_or_times": false,

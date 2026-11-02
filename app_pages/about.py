@@ -47,12 +47,17 @@ with a, card("ab_dims"):
     section_title("Dataset dimensions", "Read from app_data/data_manifest.json.")
     dims = pd.DataFrame({
         "Measure": ["Calls", "Transcript speaker turns", "Scored customer turns",
-                    "Zero-length transcript turns", "Turns with agent/customer role conflict (sentiment set)",
-                    "Mixed turns excluded from sentiment", "Manual checks of role attribution"],
+                    "Zero-length transcript turns", "Scored turns that diarization labelled agent",
+                    "Transcript turns re-attributed to the reference role", "Mixed-speaker transcript segments",
+                    "Mixed turns excluded from sentiment", "Manual checks of role attribution",
+                    "Calls with partial closing-sentiment coverage", "Verified summary corrections"],
         "Value": [counts.get("calls"), counts.get("total_speaker_turns"), counts.get("scored_customer_turns"),
                   counts.get("nonpositive_duration_turns"),
                   counts.get("customer_turns_original_speaker_agent_but_reference_customer"),
-                  method.get("excluded_mixed_turns"), method.get("manual_checks")],
+                  counts.get("transcript_turns_role_corrected_to_reference"),
+                  counts.get("transcript_turns_mixed_speaker"),
+                  method.get("excluded_mixed_turns"), method.get("manual_checks"),
+                  counts.get("calls_with_partial_closing_sentiment_coverage"), counts.get("verified_corrections")],
     })
     dims["Value"] = dims["Value"].map(lambda v: "n/a" if v is None else str(v))
     st.table(dims.set_index("Measure"))
@@ -81,6 +86,9 @@ with card("ab_limits"):
         "Sentiment model: a Twitter-trained RoBERTa model, not trained on call-center speech. Turn labels are model "
         "predictions, not human annotations, and are not a CSAT measure.",
         "Summary evaluation: 1–5 rubric scores reflect reviewer judgement on 12 examples, not a general benchmark.",
+        f"Summary corrections: {counts.get('verified_corrections', 0)} Qwen3 summary fields were corrected after a "
+        "targeted manual review against the transcript and are marked “verified correction”; the original model "
+        "text is kept alongside. Other summary text was not exhaustively re-verified.",
         "No live inference, no audio, no call dates, agent IDs, verified resolution flags, or satisfaction surveys "
         "exist in this dataset — so none are shown.",
         *[f"Source note: {x}" for x in method.get("limitations", [])],

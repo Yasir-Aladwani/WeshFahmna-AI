@@ -1,8 +1,12 @@
 import streamlit as st
 
-from components.ui import card, empty_state, kpi_row, page_header, scope_banner, section_title, sync_call_picker
+from components.ui import (
+    card, empty_state, kpi_row, page_header, partial_coverage_caption, scope_banner, section_title,
+    sync_call_picker,
+)
 from utils import charts
 from utils.context import get_context
+from utils.data_loader import coverage_note
 
 ctx = get_context()
 
@@ -46,6 +50,7 @@ with b, card("se_open_close"):
                   "How many calls opened and closed with each categorical label.")
     st.plotly_chart(charts.opening_vs_closing(calls_f, height=260), config=charts.CHART_CONFIG, theme=None,
                     key="se_oc_chart", alt="Grouped bars comparing opening and closing sentiment categories")
+    partial_coverage_caption(calls_f)
 
 with card("se_change"):
     section_title("Numeric sentiment change by call",
@@ -87,6 +92,9 @@ with card("se_timeline"):
     one = sent_f[sent_f["call_id"] == call_id]
     st.plotly_chart(charts.call_sentiment_timeline(one), config=charts.CHART_CONFIG, theme=None,
                     key="se_timeline_chart", alt=f"Sentiment timeline for {call_id}")
+    picked = calls_f[calls_f["call_id"] == call_id]
+    if not picked.empty and picked.iloc[0].closing_sentiment_coverage == "partial":
+        st.caption(coverage_note(picked.iloc[0]))
     if st.button("Open this call in Call explorer", icon=":material/arrow_forward:", key="se_open"):
         st.session_state["selected_call"] = call_id
         st.switch_page("app_pages/call_explorer.py")

@@ -1,0 +1,83 @@
+{
+  "description": "Manually verified corrections to Qwen3-4B call summary fields. Each entry was checked against the time-stamped transcript turns cited in evidence_turns (start seconds). The original model output is never edited: it stays verbatim in calls_dashboard.csv, and these corrections are published separately in verified_corrections.csv. A correction either replaces one exact passage of the model text (find/replace) or supplies a full corrected field (corrected_text). Corrections contain no personal identifiers.",
+  "review_method": "Manual review against the reference-assisted transcript (ASR text may contain errors)",
+  "review_date": "2026-11-02",
+  "corrections": [
+    {
+      "call_id": "CALL_012",
+      "field": "agent_action",
+      "category": "amount",
+      "issue": "The model stopped at the $780 subtotal. After the customer added cleanup, the agent quoted a total of $830 ($630 food + $150 barista and coffee machine + $50 cleanup).",
+      "find": "Additional charges were noted: $35 per head ($630 total), $150 for barista and coffee machine, and $50 for cleanup, totaling $780.",
+      "replace": "Charges quoted: $35 per head ($630 for 18 guests) and $150 for the barista and coffee machine (an approximate total of $780), plus $50 for cleanup, bringing the quoted total to $830.",
+      "evidence_turns": [683.71, 804.87]
+    },
+    {
+      "call_id": "CALL_012",
+      "field": "final_outcome",
+      "category": "amount",
+      "issue": "The model reported a confirmed total of $780; the agent's final quoted total was $830. The 48-hour payment timing is garbled in the transcript, so it is stated cautiously.",
+      "find": "A total cost of $780 was confirmed, including setup and cleanup. Payment is required within 48 hours via email.",
+      "replace": "The final quoted total was $830 ($630 food at $35 per head, $150 barista and coffee machine, $50 cleanup). The agent said payment is needed before delivery (the transcript mentions a 48-hour window) and that the details will be emailed to the customer.",
+      "evidence_turns": [683.71, 804.87, 834.05, 845.11]
+    },
+    {
+      "call_id": "CALL_012",
+      "field": "summary",
+      "category": "amount",
+      "issue": "The model reported a total of $780; the agent's final quoted total was $830.",
+      "find": "Total cost is $780 with payment due within 48 hours via email.",
+      "replace": "The final quoted total is $830 ($630 food, $150 barista and coffee machine, $50 cleanup); payment is needed before delivery (the transcript mentions a 48-hour window), and details will be emailed.",
+      "evidence_turns": [683.71, 804.87, 834.05]
+    },
+    {
+      "call_id": "CALL_010",
+      "field": "agent_action",
+      "category": "amount",
+      "issue": "The model said a $600 transfer was confirmed and the daily limit was 'adjusted from $500 to $500'. In the call, the $500 daily limit meant $600 would take up to three days, so the customer reduced the transfer to $500; the limit was not changed. The name given at verification also differs from the name the caller introduced themself with.",
+      "corrected_text": "The agent verified the caller's identity with a full name and date of birth, a security card number, and a mobile number. (The name given at verification differs from the name the caller used when introducing themself; this may be an ASR or role-play inconsistency.) The agent explained that the savings account has a $500 daily transfer limit, so a $600 transfer would take up to three days. The customer chose to reduce the transfer to $500. A one-time code was sent to the customer's mobile and read back, after which the agent stated that the transfer had been completed. The agent also explained how to set up automatic transfers on the website ('Schedule Transfers' under preferences) and suggested waiting, to avoid duplicating today's transfer.",
+      "evidence_turns": [20.4, 51.93, 82.06, 86.92, 116.6, 124.88, 196.03]
+    },
+    {
+      "call_id": "CALL_010",
+      "field": "final_outcome",
+      "category": "amount",
+      "issue": "The model said a $600 transfer was completed. The customer agreed to $500 because of the daily limit, and the agent confirmed completion without restating the amount; the customer did not confirm the new balance during the call.",
+      "corrected_text": "The agent stated that the transfer from savings to checking was completed after the one-time code was read back. The agent did not restate the final amount; earlier in the call the customer agreed to reduce it from the requested $600 to $500 to stay within the daily limit. The agent said the funds should appear within minutes in the mobile app or internet banking; the customer did not confirm the updated balance during the call. Instructions were given for setting up future automatic transfers on the website.",
+      "evidence_turns": [82.06, 86.92, 124.88, 196.03, 357.48, 370.8]
+    },
+    {
+      "call_id": "CALL_010",
+      "field": "summary",
+      "category": "amount",
+      "issue": "The model said the agent processed a $600 transfer and 'adjusted the daily limit to $500'. The customer agreed to transfer $500 instead because of the existing $500 daily limit.",
+      "corrected_text": "The customer asked for an urgent $600 transfer from savings to checking. Because of a $500 daily transfer limit (a larger transfer would take up to three days), the customer agreed to transfer $500 instead. After identity checks and a one-time code, the agent stated that the transfer was complete, without restating the amount. The agent also explained how to set up future automatic transfers on the website and suggested waiting, to avoid duplicating today's transfer.",
+      "evidence_turns": [82.06, 86.92, 116.6, 124.88, 196.03]
+    },
+    {
+      "call_id": "CALL_005",
+      "field": "final_outcome",
+      "category": "transaction_status",
+      "issue": "Items were reserved or added to the basket for in-store collection and inspection; the final payment was not made or confirmed during the call.",
+      "corrected_text": "The customer reserved a baby-blue t-shirt and pajama set for in-store collection and had further items added to the basket, including a royal red dress, petite heels and a king-sized fleece duvet. The agent confirmed the items can be inspected in store before the final card payment. Payment was not made or confirmed during the call, so this is a reservation, not a completed purchase. The customer's daughter was added to the loyalty card and the online catalogue was sent to the customer's email.",
+      "evidence_turns": [141.47, 157.99, 357.02, 421.08, 452.52]
+    },
+    {
+      "call_id": "CALL_005",
+      "field": "summary",
+      "category": "transaction_status",
+      "issue": "The model wrote that the customer 'purchased' the items. They were reserved or added to the basket; payment happens in store after inspection and was not confirmed in the call.",
+      "corrected_text": "The customer reserved a baby-blue t-shirt and pajama set for in-store collection and asked the agent to add further items to the basket, including a royal red party dress, petite heels, a long-sleeve pajama set and a king-sized fleece duvet. A £15 loyalty voucher was applied. The items can be inspected in store before the final card payment; payment was not made or confirmed during the call. The customer's daughter was added to the loyalty card, and the online catalogue was sent to the customer's email.",
+      "evidence_turns": [141.47, 157.99, 173.15, 357.02, 421.08, 452.52]
+    },
+    {
+      "call_id": "CALL_011",
+      "field": "summary",
+      "category": "relationship",
+      "issue": "The model wrote that the granny flat is for the customer's own mother. The customer refers to 'my partner's mom' and 'my mum-in-law'.",
+      "find": "to care for his mother.",
+      "replace": "to care for the customer's partner's mother (referred to in the call as 'my partner's mom' and 'my mum-in-law').",
+      "evidence_turns": [93.79, 262.74, 464.65]
+    }
+  ]
+}

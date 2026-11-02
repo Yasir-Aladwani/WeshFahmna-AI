@@ -32,6 +32,8 @@ CALL_NUMERIC_COLS = [
     "asr_wer_pct", "asr_adjusted_wer_pct", "diarization_der_pct",
     "qwen3_quality_out_of_5", "qwen25_quality_out_of_5",
     "agent_turn_count", "customer_turn_count", "scored_customer_turn_count",
+    "role_corrected_turn_count", "mixed_speaker_turn_count",
+    "first_scored_turn_sec", "last_scored_turn_end_sec", "sentiment_coverage_end_pct",
 ]
 
 
@@ -65,6 +67,9 @@ def load_calls() -> pd.DataFrame:
         df[col] = df[col].fillna("unknown").astype(str).str.strip().str.lower()
     for col in ["domain", "accent"]:
         df[col] = df[col].fillna("unknown").astype(str)
+    df["closing_sentiment_coverage"] = df.get("closing_sentiment_coverage", "covered")
+    df["verified_correction_fields"] = df.get("verified_correction_fields", "")
+    df["verified_correction_fields"] = df["verified_correction_fields"].fillna("").astype(str)
     return df.sort_values("call_id").reset_index(drop=True)
 
 
@@ -76,6 +81,12 @@ def load_turns() -> pd.DataFrame:
     df = df.dropna(subset=["call_id", "start"])
     df["text"] = df["text"].fillna("").astype(str)
     df["role"] = df["role"].fillna("unknown").astype(str).str.lower()
+    if "diarization_role" in df:
+        df["diarization_role"] = df["diarization_role"].fillna("unknown").astype(str).str.lower()
+    if "reference_share" in df:
+        df["reference_share"] = pd.to_numeric(df["reference_share"], errors="coerce")
+    for col in ["role_corrected", "mixed_speaker_segment"]:
+        df[col] = df[col].fillna(False).astype(bool) if col in df else False
     df["duration_sec"] = pd.to_numeric(df["duration_sec"], errors="coerce").fillna(0).clip(lower=0)
     df["valid_time_span"] = df["end"] > df["start"]
     return df.sort_values(["call_id", "start", "end"], kind="stable").reset_index(drop=True)
@@ -97,6 +108,16 @@ def load_sentiment_turns() -> pd.DataFrame:
 @st.cache_data(show_spinner=False, max_entries=4)
 def load_summary_quality() -> pd.DataFrame:
     return _read_csv(APP_DATA / "summary_quality_dashboard.csv").sort_values("call_id").reset_index(drop=True)
+
+
+@st.cache_data(show_spinner=False, max_entries=4)
+def load_corrections() -> pd.DataFrame:
+    """Manually verified corrections to model summary fields; the model text itself is never edited."""
+    path = APP_DATA / "verified_corrections.csv"
+    if not path.exists():
+        return pd.DataFrame(columns=["call_id", "field", "category", "issue", "corrected_text",
+                                     "evidence_timestamps"])
+    return _read_csv(path).fillna("")
 
 
 @st.cache_data(show_spinner=False, max_entries=4)
@@ -196,3 +217,12 @@ def format_timestamp(seconds: float) -> str:
     seconds = max(0, int(seconds))
     m, s = divmod(seconds, 60)
     return f"{m:02d}:{s:02d}"
+
+
+def coverage_note(call) -> str:
+    """Plain-English note for a call whose scored customer turns stop well before the end of the call."""
+    return (f"Scored customer turns cover {format_timestamp(call.first_scored_turn_sec)}–"
+            f"{format_timestamp(call.last_scored_turn_end_sec)} of a {format_timestamp(call.duration_sec)} call "
+            f"({call.sentiment_coverage_end_pct:.0f}%). Later customer speech sits in mixed-speaker segments that "
+            f"were not scored, so the stored closing sentiment ({call.closing_sentiment}) may not reflect how "
+            "the call ended.")

@@ -1,6 +1,8 @@
 import streamlit as st
 
-from components.ui import E, card, empty_state, hero, kpi_row, scope_banner, section_title, sentiment_pill
+from components.ui import (
+    E, card, empty_state, hero, kpi_row, partial_coverage_caption, scope_banner, section_title, sentiment_pill,
+)
 from utils import charts
 from utils.context import get_context
 from utils.data_loader import accent_label, domain_label, format_duration
@@ -50,6 +52,7 @@ with right, card("ov_trans"):
                   "numeric sentiment_change score.")
     st.plotly_chart(charts.transition_heatmap(calls_f, height=260), config=charts.CHART_CONFIG, theme=None,
                     key="ov_trans_chart", alt="Heatmap of opening versus closing sentiment categories")
+    partial_coverage_caption(calls_f)
 
 with card("ov_mix"):
     head, ctrl = st.columns([3, 2], vertical_alignment="bottom")

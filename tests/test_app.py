@@ -159,9 +159,63 @@ def test_redaction_rules_on_synthetic_text():
     for raw, token in cases.items():
         assert token in redact(raw), raw
     assert redact("black and gold heels for $600") == "black and gold heels for $600"
+    assert redact("sent to sam@example.com. All items") == "sent to [EMAIL]. All items"
     turns = pd.DataFrame({"call_id": ["X"] * 3,
                           "text": ["Can I take a phone number?", "four five", "three two okay"]})
     assert redact_turns(turns, Counter())[1:] == ["[NUMBER]", "[NUMBER] okay"]
+
+
+def test_transcript_roles_agree_with_sentiment_and_keep_diarization():
+    _, turns, sent = _raw()
+    role = dict(zip(zip(turns["call_id"], turns["start"].round(2)), turns["role"]))
+    assert all(role[k] == "customer" for k in zip(sent["call_id"], sent["start"].round(2)))
+    # The original diarization roles are preserved, and roles change only where the reference is decisive.
+    assert turns["diarization_role"].value_counts().to_dict() == {"agent": 424, "customer": 352}
+    changed = turns[turns["role"] != turns["diarization_role"]]
+    assert changed["role_corrected"].all() and (changed["role_source"] == "reference").all()
+    assert (changed["reference_share"] >= 0.7).all() and (changed["role"] == changed["reference_role"]).all()
+    assert (turns.loc[turns["role_source"] == "diarization", "reference_share"] < 0.7).all()
+    assert turns.loc[turns["reference_share"] < 0.9, "mixed_speaker_segment"].all()
+
+
+def test_verified_corrections_keep_model_output():
+    calls, turns, _ = _raw()
+    fixes = pd.read_csv(ROOT / "app_data" / "verified_corrections.csv")
+    fix = {(r.call_id, r.field): r.corrected_text for r in fixes.itertuples()}
+    model = calls.set_index("call_id")
+    # Original model output stays verbatim; corrections are separate.
+    assert "$780" in model.at["CALL_012", "summary"] and "$780" in model.at["CALL_012", "final_outcome"]
+    assert "purchased" in model.at["CALL_005", "summary"]
+    for field in ["summary", "final_outcome"]:
+        assert "$830" in fix[("CALL_012", field)] and "total of $780" not in fix[("CALL_012", field)]
+        assert "$500" in fix[("CALL_010", field)] and "did not restate" in fix[("CALL_010", "final_outcome")]
+        assert "purchased" not in fix[("CALL_005", field)] and "not made or confirmed" in fix[("CALL_005", field)]
+    assert "$500 to $500" not in fix[("CALL_010", "agent_action")]
+    assert "partner's mother" in fix[("CALL_011", "summary")]
+    starts = turns.groupby("call_id")["start"].apply(lambda s: set(s.round(2)))
+    for r in fixes.itertuples():
+        assert r.field in calls.columns and r.issue and r.evidence_timestamps
+        assert {round(float(x), 2) for x in r.evidence_turn_starts.split(";")} <= starts[r.call_id]
+    assert set(calls.loc[calls["verified_correction_fields"].notna(), "call_id"]) == set(fixes["call_id"])
+
+
+def test_partial_sentiment_coverage_is_flagged():
+    calls, _, _ = _raw()
+    partial = calls[calls["closing_sentiment_coverage"] == "partial"]
+    assert partial["call_id"].tolist() == ["CALL_006"]
+    assert 420 < partial.iloc[0]["last_scored_turn_end_sec"] < 430
+    at = _app("app_pages/call_explorer.py", selected_call="CALL_006")
+    assert any("Partial sentiment coverage" in str(w.proto) for w in at.warning)
+    assert "Partial closing coverage: CALL_006" in "".join(c.value for c in _app("app_pages/sentiment.py").caption)
+
+
+def test_call_explorer_shows_corrections_and_role_flags():
+    at = _app("app_pages/call_explorer.py", selected_call="CALL_012")
+    html = _html(at)
+    assert "verified correction" in html and "$830" in html and "original Qwen3 output" in html
+    at = _app("app_pages/call_explorer.py", selected_call="CALL_005")
+    html = _html(at)
+    assert "role corrected" in html and "mixed speakers" in html and "role conflict" not in html
 
 
 def test_runtime_never_reads_private_originals():

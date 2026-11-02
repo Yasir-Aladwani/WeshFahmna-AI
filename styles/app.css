@@ -115,6 +115,8 @@
 }
 .wf-tone-caution .wf-text-label { color: #f0a479; }
 .wf-tone-caution { border-color: rgba(224, 112, 63, 0.35); }
+.wf-tone-verified { border-color: rgba(52, 211, 153, 0.45); }
+.wf-tone-verified .wf-text-label { color: #6ee7b7; }
 .wf-text-body { margin: 0; color: #d7deea; line-height: 1.6; font-size: 0.93rem; white-space: pre-wrap; }
 .wf-muted { color: var(--wf-muted); }
 
