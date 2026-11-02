@@ -9,9 +9,11 @@
   <img src="assets/weshfahmna-logo.png" alt="WeshFahmna AI — Call Center Analytics" width="78%">
 </p>
 
-<p align="center">
-  <a href="https://weshfahmna-ai.streamlit.app/"><strong>🚀 Explore the Live Dashboard</strong></a>
-</p>
+<h2 align="center">
+  <a href="https://weshfahmna-ai.streamlit.app/">
+     Explore the Live Dashboard ↗
+  </a>
+</h2>
 
 > **Project scope:** This is a **12-call evaluation and visualization prototype**, rather than a live call-monitoring system. Speech processing and language-model inference are performed **offline**; the Streamlit dashboard reads prepared results. The original dataset consists of **role-played English customer-service calls**, not private customer recordings.
 
