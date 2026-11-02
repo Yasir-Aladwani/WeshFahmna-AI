@@ -552,7 +552,7 @@ Its primary objective is to explore how AI-generated conversation insights can b
 
 **Yasir Aladwani**
 
-AI Engineer | Data Science & Machine Learning
+AI Engineer
 
 **LinkedIn:**  
 [linkedin.com/in/yasir-aladwani-99669a402](https://www.linkedin.com/in/yasir-aladwani-99669a402)
