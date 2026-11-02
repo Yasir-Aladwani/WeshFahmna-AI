@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/branding/weshfahmna-logo.png" alt="WeshFahmna AI — Call Center Analytics" width="78%">
+  <img src="assets/weshfahmna-logo.png" alt="WeshFahmna AI — Call Center Analytics" width="78%">
 </p>
 
 <p align="center">
@@ -107,7 +107,7 @@ WeshFahmna AI follows a modular architecture that separates **compute-intensive 
 This design allows users to explore precomputed results without downloading large AI models or reprocessing the original audio recordings.
 
 <p align="center">
-  <img src="assets/architecture/system-architecture.png" alt="WeshFahmna AI System Architecture" width="100%">
+  <img src="assets/system-architecture.png" alt="WeshFahmna AI System Architecture" width="100%">
 </p>
 
 ### Architecture Components
@@ -152,7 +152,7 @@ The prepared outputs are loaded into an interactive dashboard for call explorati
 The project follows an end-to-end workflow from dataset acquisition to interactive visualization.
 
 <p align="center">
-  <img src="assets/pipeline/project-pipeline.jpeg" alt="WeshFahmna AI Project Pipeline" width="100%">
+  <img src="assets/project-pipeline.jpeg" alt="WeshFahmna AI Project Pipeline" width="100%">
 </p>
 
 ### Processing Workflow
