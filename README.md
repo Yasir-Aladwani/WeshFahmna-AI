@@ -54,6 +54,84 @@
 
 <br>
 
+<h2 align="center">Project Video Demonstrations</h2>
+
+<p align="center">
+  Explore the project through a technical presentation, an interactive application walkthrough,
+  and a short AI-powered explainer video.
+</p>
+
+<br>
+
+<table align="center" width="100%">
+  <thead>
+    <tr>
+      <th align="center">Video</th>
+      <th align="center">Description</th>
+      <th align="center">Watch</th>
+      <th align="center">Download</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">
+        <strong>Project Presentation</strong>
+      </td>
+      <td>
+        Project methodology, implementation, results, and key findings.
+      </td>
+      <td align="center">
+        <a href="https://drive.google.com/file/d/18mSweEOO6Nh5Kb875vYnvMNEba0fM2NW/view">
+          <strong>Watch Video</strong>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://drive.google.com/uc?export=download&amp;id=18mSweEOO6Nh5Kb875vYnvMNEba0fM2NW">
+          <strong>Download MP4</strong>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <strong>Streamlit Live Demo</strong>
+      </td>
+      <td>
+        Interactive application demonstration.
+      </td>
+      <td align="center">
+        <a href="https://drive.google.com/file/d/1_A2SQZ6c-QGuIZgm7Num_fjYfVfLeQDv/view">
+          <strong>Watch Demo</strong>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://drive.google.com/uc?export=download&amp;id=1_A2SQZ6c-QGuIZgm7Num_fjYfVfLeQDv">
+          <strong>Download MP4</strong>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <strong>AI Project Explainer</strong>
+      </td>
+      <td>
+        Short, non-technical project introduction.
+      </td>
+      <td align="center">
+        <a href="https://drive.google.com/file/d/1oodV89AUKy6IQFCR6PUl6wDPaGatpOsi/view">
+          <strong>Watch Video</strong>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://drive.google.com/uc?export=download&amp;id=1oodV89AUKy6IQFCR6PUl6wDPaGatpOsi">
+          <strong>Download MP4</strong>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
 > **Project scope:** This is a **12-call evaluation and visualization prototype**, rather than a live call-monitoring system. Speech processing and language-model inference are performed **offline**; the Streamlit dashboard reads prepared results. The original dataset consists of **role-played English customer-service calls**, not private customer recordings.
 
 ---
