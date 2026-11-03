@@ -9,127 +9,55 @@
   <img src="assets/weshfahmna-logo.png" alt="WeshFahmna AI — Call Center Analytics" width="78%">
 </p>
 
-<h2 align="center">
-  <a href="https://weshfahmna-ai.streamlit.app/">
-    Explore the Live Dashboard ↗
-  </a>
-</h2>
-
-> **Project scope:** This is a **12-call evaluation and visualization prototype**, rather than a live call-monitoring system. Speech processing and language-model inference are performed **offline**; the Streamlit dashboard reads prepared results. The original dataset consists of **role-played English customer-service calls**, not private customer recordings.
-
-<br>
-
----
-
-<div align="center">
-
-<h2> Project Resources</h2>
-
-<p>
-  Access the complete project documentation, research,
-  presentation materials, and interactive application.
-</p>
-
 <br>
 
 <table align="center" width="100%">
+  <tr>
+    <td align="center" width="20%">
+      <br>
+      <a href="https://weshfahmna-ai.streamlit.app/">
+        <strong>Streamlit App ↗</strong>
+      </a>
+      <br><br>
+    </td>
 
-<tr>
-<td align="center" width="50%">
+    <td align="center" width="20%">
+      <br>
+      <a href="docs/WeshFahmna_AI_Final_Project_Report.pdf">
+        <strong>Final Report ↗</strong>
+      </a>
+      <br><br>
+    </td>
 
-<h3> Live Dashboard</h3>
+    <td align="center" width="20%">
+      <br>
+      <a href="docs/presentation/WeshFahmna_AI_Presentation.pdf">
+        <strong>Presentation Slides ↗</strong>
+      </a>
+      <br><br>
+    </td>
 
-Explore interactive call analytics,<br>
-customer sentiment, and AI-generated insights.
+    <td align="center" width="20%">
+      <br>
+      <a href="YOUR_VIDEO_URL">
+        <strong>Video Walkthrough ↗</strong>
+      </a>
+      <br><br>
+    </td>
 
-<br><br>
-
-<a href="https://weshfahmna-ai.streamlit.app/">
-  <strong>Launch Application ↗</strong>
-</a>
-
-<br><br>
-
-</td>
-
-<td align="center" width="50%">
-
-<h3> Final Project Report</h3>
-
-Comprehensive technical documentation,<br>
-methodology, evaluation, and findings.
-
-<br><br>
-
-<a href="docs/WeshFahmna_AI_Final_Project_Report.pdf">
-  <strong>View Technical Report ↗</strong>
-</a>
-
-<br><br>
-
-</td>
-</tr>
-
-<tr>
-<td align="center" width="50%">
-
-<h3> Presentation Slides</h3>
-
-Project overview, system architecture,<br>
-AI pipeline, and key evaluation results.
-
-<br><br>
-
-<a href="docs/presentation/WeshFahmna_AI_Presentation.pdf">
-  <strong>View Presentation ↗</strong>
-</a>
-
-<br><br>
-
-</td>
-
-<td align="center" width="50%">
-
-<h3> Project Walkthrough</h3>
-
-A 10-minute recorded presentation<br>
-covering the complete project workflow.
-
-<br><br>
-
-<a href="YOUR_VIDEO_URL">
-  <strong>Watch Presentation ↗</strong>
-</a>
-
-<br><br>
-
-</td>
-</tr>
-
-<tr>
-<td align="center" colspan="2">
-
-<h3> Research Survey</h3>
-
-Comparative analysis of public datasets and research papers,<br>
-including evaluation criteria and dataset selection methodology.
-
-<br><br>
-
-<a href="docs/research_survey.xlsx">
-  <strong>Explore Research Survey ↗</strong>
-</a>
-
-<br><br>
-
-</td>
-</tr>
-
+    <td align="center" width="20%">
+      <br>
+      <a href="docs/research_survey.xlsx">
+        <strong>Research Survey ↗</strong>
+      </a>
+      <br><br>
+    </td>
+  </tr>
 </table>
 
-</div>
-
 <br>
+
+> **Project scope:** This is a **12-call evaluation and visualization prototype**, rather than a live call-monitoring system. Speech processing and language-model inference are performed **offline**; the Streamlit dashboard reads prepared results. The original dataset consists of **role-played English customer-service calls**, not private customer recordings.
 
 ---
 
