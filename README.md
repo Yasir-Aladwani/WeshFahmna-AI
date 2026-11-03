@@ -11,45 +11,42 @@
 
 <br>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
-    <td align="center">
+    <td align="center" width="33%">
       <br>
-      <h2></h2>
-      <h3>
-        &emsp;&emsp;
+      <h2>
         <a href="https://weshfahmna-ai.streamlit.app/">
-          Streamlit&nbsp;App ↗
+          Streamlit&nbsp;App
         </a>
-        &emsp;&emsp;
-      </h3>
-      <p><sub>INTERACTIVE DASHBOARD</sub></p>
+      </h2>
+      <p>
+        <strong>INTERACTIVE DASHBOARD</strong>
+      </p>
       <br>
     </td>
-    <td align="center">
+    <td align="center" width="34%">
       <br>
-      <h2></h2>
-      <h3>
-        &emsp;&emsp;
+      <h2>
         <a href="docs/WeshFahmna_AI_Final_Project_Report.pdf">
-          Final&nbsp;Report ↗
+          Final&nbsp;Report
         </a>
-        &emsp;&emsp;
-      </h3>
-      <p><sub>TECHNICAL DOCUMENTATION</sub></p>
+      </h2>
+      <p>
+        <strong>TECHNICAL DOCUMENTATION</strong>
+      </p>
       <br>
     </td>
-    <td align="center">
+    <td align="center" width="33%">
       <br>
-      <h2></h2>
-      <h3>
-        &emsp;&emsp;
+      <h2>
         <a href="docs/research_survey.xlsx">
-          Research&nbsp;Survey ↗
+          Research&nbsp;Survey
         </a>
-        &emsp;&emsp;
-      </h3>
-      <p><sub>DATASET &amp; RESEARCH ANALYSIS</sub></p>
+      </h2>
+      <p>
+        <strong>DATASET &amp; RESEARCH ANALYSIS</strong>
+      </p>
       <br>
     </td>
   </tr>
