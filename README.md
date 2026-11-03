@@ -37,7 +37,6 @@
       </p>
       <br>
     </td>
-
     <td align="center" width="25%">
       <br>
       <h2>
@@ -50,7 +49,6 @@
       </p>
       <br>
     </td>
-
     <td align="center" width="25%">
       <br>
       <h2>
