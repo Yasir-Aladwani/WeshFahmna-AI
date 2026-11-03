@@ -13,7 +13,7 @@
 
 <table align="center" width="100%">
   <tr>
-    <td align="center" width="33%">
+    <td align="center" width="25%">
       <br>
       <h2>
         <a href="https://weshfahmna-ai.streamlit.app/">
@@ -25,7 +25,20 @@
       </p>
       <br>
     </td>
-    <td align="center" width="34%">
+    <td align="center" width="25%">
+      <br>
+      <h2>
+        <a href="docs/WeshFahmna_AI_Presentation.pdf">
+          Final&nbsp;Presentation
+        </a>
+      </h2>
+      <p>
+        <strong>PROJECT PRESENTATION</strong>
+      </p>
+      <br>
+    </td>
+
+    <td align="center" width="25%">
       <br>
       <h2>
         <a href="docs/WeshFahmna_AI_Final_Project_Report.pdf">
@@ -37,7 +50,8 @@
       </p>
       <br>
     </td>
-    <td align="center" width="33%">
+
+    <td align="center" width="25%">
       <br>
       <h2>
         <a href="docs/research_survey.xlsx">
@@ -51,8 +65,6 @@
     </td>
   </tr>
 </table>
-
-<br>
 
 <h2 align="center">Project Video Demonstrations</h2>
 
