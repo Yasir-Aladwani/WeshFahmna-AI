@@ -13,39 +13,21 @@
 
 <table align="center" width="100%">
   <tr>
-    <td align="center" width="20%">
+    <td align="center" width="33%">
       <br>
       <a href="https://weshfahmna-ai.streamlit.app/">
         <strong>Streamlit App ↗</strong>
       </a>
       <br><br>
     </td>
-
-    <td align="center" width="20%">
+    <td align="center" width="34%">
       <br>
       <a href="docs/WeshFahmna_AI_Final_Project_Report.pdf">
         <strong>Final Report ↗</strong>
       </a>
       <br><br>
     </td>
-
-    <td align="center" width="20%">
-      <br>
-      <a href="docs/presentation/WeshFahmna_AI_Presentation.pdf">
-        <strong>Presentation Slides ↗</strong>
-      </a>
-      <br><br>
-    </td>
-
-    <td align="center" width="20%">
-      <br>
-      <a href="YOUR_VIDEO_URL">
-        <strong>Video Walkthrough ↗</strong>
-      </a>
-      <br><br>
-    </td>
-
-    <td align="center" width="20%">
+    <td align="center" width="33%">
       <br>
       <a href="docs/research_survey.xlsx">
         <strong>Research Survey ↗</strong>
