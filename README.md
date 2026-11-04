@@ -13,7 +13,7 @@
 
 <table align="center" width="100%">
   <tr>
-    <td align="center" width="25%">
+    <td align="center" valign="top" width="25%">
       <br>
       <h2>
         <a href="https://weshfahmna-ai.streamlit.app/">
@@ -25,7 +25,7 @@
       </p>
       <br>
     </td>
-    <td align="center" width="25%">
+    <td align="center" valign="top" width="25%">
       <br>
       <h2>
         <a href="docs/WeshFahmna%20AI%20%E2%80%94%20Maharah%20GDP%20Presentation.pdf">
@@ -37,7 +37,7 @@
       </p>
       <br>
     </td>
-    <td align="center" width="25%">
+    <td align="center" valign="top" width="25%">
       <br>
       <h2>
         <a href="docs/WeshFahmna_AI_Final_Project_Report.pdf">
@@ -49,7 +49,7 @@
       </p>
       <br>
     </td>
-    <td align="center" width="25%">
+    <td align="center" valign="top" width="25%">
       <br>
       <h2>
         <a href="docs/research_survey.xlsx">
